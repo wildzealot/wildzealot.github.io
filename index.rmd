@@ -1,0 +1,19 @@
+---
+title: "simple website"
+author: "I.A.Wilds"
+date: "2/20/2020"
+output: html_document
+---
+
+# WELCOME --Doing Data Science--
+
+
+
+## I.A.Wilds Simple Website
+### Working showcase Github site
+
+
+BELOW IS A LINK FOR AN ASSOCIATED R SHINY APP
+
+
+<a href="https://wilds.shinyapps.io/wilds_shiny/">I.A.WILDS RSHINY APP</a>

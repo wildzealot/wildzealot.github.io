@@ -1,0 +1,11 @@
+name: "Doing Data Science I. A. Wilds Simple Website"
+navbar:
+  title: "I.A.Wilds Simple Website"
+  left:
+    - text: "Welcome"
+      href: index.html
+    - text: "About Me"
+      href: about.html
+    - text: "Case Study 1"
+      href: Wilds_Ivory_Presentation_1.html
+  

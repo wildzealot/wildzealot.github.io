@@ -1,0 +1,22 @@
+---
+title: "about"
+author: "I.A.Wilds"
+date: "2/20/2020"
+output: html_document
+---
+
+The Sun is shining
+
+![I.A.Wilds](/Users/THEBU/Desktop/Doing Data Science/Week 12/simple website/pik_sun.jpg)
+
+
+## I am originally from Staten Island, New York
+
+### Interests include: Fitness, Cybersecurity, Dev Ops, Fiction, Comic books/Graphic Novels, Video games
+
+### I am currently employed by the USAF
+
+### I graduated High School from Curtis High in Staten Island before receiving my B.S. of Science in Cybersecurity from UMUC
+
+
+The other tabs represent work/analyses that I have completed. Please check them out!

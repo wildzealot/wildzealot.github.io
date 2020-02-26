@@ -1,0 +1,402 @@
+---
+title: "presentation 1"
+author: "I.A.Wilds"
+date: "1/14/2020"
+output: html_document
+---
+                                                      Introduction
+                                                      
+  Using the Beers and Breweries datasets, I have managed to gather a series of useful facts that may be used to increase prodcut sales. Larger and more complete datasets should be obtained in the future to improve upon the models and methods used below to increase sales and modeling efficiency. Data science can serve as a powerful tool for evaluting the true status of existing trends while preparing companies to perfect existing business models. The purpose of each individual code chunk has been written in complete sentences as comment above and in some cases below the respective code.
+```{r}
+library(ggplot2)
+library(plotly)
+library(dplyr)
+library(tidyr)
+library(datasets)
+library(class)
+library(caret)
+library(jsonlite)
+library(e1071)
+library(rmarkdown)
+library(maps)
+library(sf)
+library(ggthemes)
+library(psych)
+library(usmap)
+library(hrbrthemes)
+library(viridis)
+library(mapdata)
+library(stringr)
+```
+The two CSVs are read into the R scipt for use.
+```{r}
+beers <- read.csv("C:/Users/THEBU/Desktop/Doing Data Science/Week 8/beers.csv", header = TRUE, na.strings = "NA")
+breweries <- read.csv("C:/Users/THEBU/Desktop/Doing Data Science/Week 8/breweries.csv",header = TRUE, na.strings = "NA")
+```
+ Question 1
+ How many breweries are present in each state?
+ Creating a table which lists each state provides the number of breweries that are located there.
+ Alaska, for example, has 7 breweries.
+
+
+  I decided to create a dataframe using the table.
+  From their, I renamed the column which held the abbreviated State name and then
+  found a listing that I could use to replace the abbreviations with the full    State name.
+  Using the map_data function, I merged the new dataframe to allow for the creation of a US map.
+  Following the merge, I used geom_polygon with coord_map to create a simple US map.
+```{r}
+brewtable <- table(breweries$State)
+brewtabledf <- as.data.frame(brewtable)
+names(brewtabledf)[1] = "region"
+
+
+st.codes<-data.frame(
+                      state=as.factor(c("AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA",
+                                         "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME",
+                                         "MI", "MN", "MO", "MS",  "MT", "NC", "ND", "NE", "NH", "NJ", "NM",
+                                         "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN",
+                                         "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY")),
+                      full=as.factor(c("alaska","alabama","arkansas","arizona","california","colorado",
+                                       "connecticut","district of columbia","delaware","florida","georgia",
+                                       "hawaii","iowa","idaho","illinois","indiana","kansas","kentucky",
+                                       "louisiana","massachusetts","maryland","maine","michigan","minnesota",
+                                       "missouri","mississippi","montana","north carolina","north dakota",
+                                       "nebraska","new hampshire","new jersey","new mexico","nevada",
+                                       "new york","ohio","oklahoma","oregon","pennsylvania","rhode island",
+                                       "south carolina","south dakota","tennessee","texas",
+                                       "utah","virginia","vermont","washington","wisconsin",
+                                       "west virginia","wyoming"))
+                       )
+
+brewtabledf[,1] <- st.codes[,2]
+
+
+all_states <- map_data("state")
+
+brewmap <- merge(all_states,brewtabledf,by="region",all.x = T)
+
+brewmap <- brewmap[order(brewmap$order),]
+mapbrew <- ggplot(brewmap, aes(x=long,y=lat,group=group))+
+  geom_polygon(aes(fill=Freq))+
+  geom_path()+ 
+  scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90")+
+  coord_map() +
+  labs(color = "County flipped to ... ",
+  x = "Latitude",
+  y = "Longitude",
+  title = "US Brewery Heat Map",
+  caption = "Map showing the density of breweries by State.")
+mapbrew
+```
+
+
+
+```
+ Question 2
+ Merge beer data with the breweries data after creating a single name for brew ID
+ Below, the two datasets (Breweries and Beers) are merged using Brew ID as a similar factor.
+
+```{r}
+colnames(beers)[5] <- "Brew_ID"
+beermerge <- merge(beers,breweries, all = TRUE)
+
+```
+ Question 2 cont.
+ Print the first 6 observations and the last six observations to check the merged file. 
+ this does not need to be included in the presentation or the deck.)
+ The below code will grab the first/last 6 observations using the "n" variable to dictate the number to return
+ The head command is used for the first 6 and the tail command is used for the last 6.
+
+```{r}
+head(beermerge,n=6)
+tail(beermerge,n=6)
+
+```
+ QUESTION 3
+ The NA values are removed one column at a time
+ The merged dataset contains enough data to allow for them to be removed while still being useful
+
+```{r}
+statey <- read.csv("C:/Users/THEBU/Desktop/Doing Data Science/Week 8/statey2.csv", header = TRUE, na.strings = "NA")
+statey2 <- statey %>% drop_na(IBU)
+statey2 <- statey2 %>% drop_na(ABV)
+```
+
+ Question 4
+ Compute the median alcohol content and international bitterness unit for each state. Plot a bar chart to compare
+ I Manually converetd all State NAs to the correct state. #statey <- read.csv(file.choose())
+```{r}
+# check to ensure that NAs have been 
+colSums(is.na(statey2))
+# The process creates two new columns that serve no purpose so they are removed for to ensure the data is tidy.
+statey2 <- statey2[,-1,-2]
+
+# Find the median for ABV and IBU by state respectively
+# Grouping by State, we can find the median value for ABV and IBU respectively.
+mergeAbv <- data.frame(statey2 %>% group_by(State) %>% summarise(ABV_Median = median(ABV)))
+mergeIbu <- data.frame(statey2 %>% group_by(State) %>% summarise(IBU_Median = median(IBU)))
+
+# Plot a Bar chart to compare ABV
+# The median information can then be used to plot a bar graph using the states as deliminting factors.
+stateABV <- ggplot(mergeAbv,aes(fill=State)) +
+  geom_bar(stat = "identity", aes(x= State,y=ABV_Median,color = State ),color = "black") +
+  theme_economist() + 
+  scale_color_economist()+
+  theme(axis.text.x=element_text(size=rel(1.5), angle=90)) +
+  ggtitle("ABV MEDIAN BASED ON STATE") +
+  labs(x="State",y="ABV MEDIAN")
+# Call the bar graph
+stateABV 
+
+
+# Plot a Bar chart to compare IBU
+stateIBU <- ggplot(mergeIbu,aes(fill=State)) +
+  geom_bar(stat = "identity", aes(x= State,y=IBU_Median,color = State ),color = "black") +
+  theme_economist() + 
+  scale_color_economist()+
+  theme(axis.text.x=element_text(size=rel(1.5), angle=90)) +
+  ggtitle("IBU MEDIAN BASED ON STATE") +
+  labs(x="State",y="IBU MEDIAN")
+# call the bar graph
+stateIBU 
+
+
+```
+
+
+ Question 5
+ Which state has the maximum alcoholic (ABV) beer? 
+ The arrange function is used to list the ABV values in ascending order which easily shows the highest value.
+ 
+  The maximum ABV is held by Lee Hill Series Vol. 5 - Belgian Style Quadrupel Ale. This beer is associated with the (Brew_ID 52) # It has an ABV	of 0.128.
+ The brewery that makes it is located in Boulder, CO.
+ 
+  The most bitter beer is Bitter Bitch Imperial IPA	with (Brew_ID 375).
+  It has an IBU	of 138.
+  The brewery which makes this beer is located in Astoria, OR.
+```{r}
+maxabv <- arrange(beermerge,ABV)
+maxabv
+
+# Which state has the most bitter (IBU) beer?
+# The arrange function is used to list the IBU values in ascending order which easily shows the highest value.
+mostibu <- arrange(beermerge,IBU)
+mostibu
+
+```
+ Question 6
+ Comment on the summary statistics and distribution of the ABV variable. 
+
+ The summary function prints a list of useful data points in a very brief fashion for gathering relevant facts about vectors in # this case.
+ Using summary I am able to confirm that 128 is th max ABV.
+```{r}
+summary(beermerge$ABV)
+#  Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+# 0.0010  0.0500  0.0560  0.0598  0.0670  0.1280     620 
+summary(statey2$ABV)
+#  Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0.02700 0.05000 0.05700 0.05991 0.06800 0.12500
+
+```
+
+ Question 7
+ Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot.
+ Make your best judgment # of a relationship and EXPLAIN your answer.
+ 
+ 
+  The scatter plot shows a similarity between ABV and IBU. As ABV increases IBU does as well.
+ This increase appears to be coincidental as there is a linear correlation but it is not entirely consitent
+ The correlation is visible but there are a significant amount of instances in which the IBU may be high but ABV is not and vice versa.
+
+ Using the Pearson Correlation to measure the linear correlation between ABV and IBU
+ The correlation is shown to be at 0.67.
+```{r}
+related <- ggplot(statey2, aes(x=ABV, y= IBU)) +
+  geom_point(shape=18) +
+  geom_smooth() +
+  ggtitle("Is there a correlation between IBU and ABV?") +
+  labs(x="ABV",y="IBU") +
+  theme_economist() + 
+  scale_color_economist()+
+  theme(axis.text.x=element_text(size=rel(1.5))) +
+  theme(axis.text.y=element_text(size=rel(1.5)))
+related
+
+
+pairs.panels(statey2[6:7], gap=0)
+```
+
+ Question 8
+ Budweiser would also like to investigate the difference with respect to IBU and ABV between IPAs (India Pale Ales) 
+ and other types of Ale (any beer with “Ale” in its name other than IPA)
+```{r}
+
+
+# Filter out any beer style that isnt and IPA or an Ale.
+IPAandALE <- filter(statey2,grepl('IPA|Ale',Style))
+IPAandALE <- IPAandALE[,-8]
+# Create a new dataframe that only holds the ABV,IBU, and beer style.
+IPAandALEslim <- select(IPAandALE,ABV,IBU,Style)
+IPAandALEslim$Style <- as.character(IPAandALEslim$Style)
+
+# Normalize the Beer styles to IPA or ALE
+# This loop is used to iterate through each row and then to normalize the styles to simply say IPA or Ale.
+
+for (i in 1:944) {
+  if (is.na(str_match(IPAandALEslim[i,3],".Ale"))) {
+    IPAandALEslim[i,3] <- "IPA"
+  } else {
+    IPAandALEslim[i,3] <- "ALE" 
+    
+  }
+}
+
+
+```
+
+ use KNN classification to investigate this relationship
+ Provide statistical evidence. your audience is comfortable with percentages. 
+```{r}
+
+
+# Select a random seed value
+# A split of 70% to 30% will work with this dataset to create a useful training and test set.
+set.seed(1234)
+splitpale = .70
+ipasamp <- sample(1:dim(IPAandALEslim)[1],round(splitpale * dim(IPAandALEslim)[1]))
+# ipasamp
+
+# The following code separates the randomly selected values into the 70 to 30 split.
+trainIpa <- IPAandALEslim[ipasamp,]
+testIpa <- IPAandALEslim[-ipasamp,]
+
+# Using only the IBU and ABV values from both the training and test sets
+# I use the beer style as the class against which the knn will search.
+knnipa <- knn(trainIpa[,1:2],testIpa[,1:2],cl=trainIpa$Style,k=14,prob = TRUE)
+# The confusion matrix is used for calibrating the output of a model and examining all possible outcomes of the predictions
+ipamatrix <- confusionMatrix(table(knnipa,testIpa$Style))
+ipamatrix
+
+
+# The below code will iterate through 100 values of k in order to hypertune the k parameter.
+# This is done to identify the best K value to increase the accuracy percentage
+accu = data.frame(accuracy = numeric(100), k = numeric(100))
+for (i in 1:100) {
+  classify = knn(trainIpa[,c(1,2)],testIpa[,c(1,2)],trainIpa$Style, prob = TRUE, k = i)
+  table(classify,testIpa$Style)
+  confused <- confusionMatrix(table(classify,testIpa$Style))
+  accu$accuracy[i] = confused$overall[1]
+  accu$k[i] = i
+}
+
+accuplot <- ggplot(accu,aes(x=k,y=accuracy)) +
+  geom_line() +
+  labs(x="Tally",y="Accuracy")
+accuplot <- ggplotly(accuplot)
+
+accuplot
+# 14 seems to yield the best accuracy
+
+```
+
+
+ In addition,to KNN, I will use NaiveBayes to supplement the response to question of ABV and IBU correlation in IPAs and Ales.
+ Using NaiveBayes, re-evalute the IPA and Ale data based on IBU and ABV.
+
+```{r}
+# Values are set to factor types.
+IPAandALEslim$Style <- as.factor(IPAandALEslim$Style)
+testIpa$Style <- as.factor(testIpa$Style)
+trainIpa$Style <- as.factor(trainIpa$Style)
+
+# The model is created using the training data and the Naive Bayes function.
+modelipa <- naiveBayes(Style ~., data = trainIpa)
+modelipa
+
+# A separate dataframe is used to predict agianst with our model. The new dataframe is set to only IPA styles.
+df1 <- data.frame(Style = "IPA",ABV = testIpa$ABV, IBU = testIpa$IBU)
+pipa <- predict(modelipa,df1)
+#p <- #as.factor(p)
+
+# Creating a table shows the results of our prediction and compares them to the known truth of the style values.
+# It clearly shows the probability that a beer is an IPA or ALe using IBU and ABV values to decide.
+tableALE <- table(pipa,testIpa$Style)
+confuseale <- confusionMatrix(tableALE)
+confuseale
+
+
+
+
+
+table <- data.frame(confusionMatrix(pipa, testIpa$Style)$table)
+plotTable <- table %>%
+  mutate(goodbad = ifelse(table$Prediction == table$Reference, "good", "bad")) %>%
+  group_by(Reference) %>%
+  mutate(prop = Freq/sum(Freq))
+
+# fill alpha relative to sensitivity/specificity by proportional outcomes within reference groups (see dplyr code above as well as original confusion matrix for comparison)
+ipatable <- ggplot(data = plotTable, mapping = aes(x = Reference, y = Prediction, fill = goodbad, alpha = prop)) +
+  geom_tile() +
+  geom_text(aes(label = Freq), vjust = .5, fontface  = "bold", alpha = 1) +
+  scale_fill_manual(values = c(good = "green", bad = "red")) +
+  theme_bw() +
+  xlim(rev(levels(table$Reference)))
+ipatable
+
+
+
+
+```
+ Question 9
+ Find one other useful inference from the data that you feel Budweiser may be able to find value in.
+ You must convince them why # it is important and back up your conviction with appropriate statistical evidence
+
+ Create a bubble chart showing which states tend to prefer larger bottles of beer with higher ABV for marketing purposes.
+ This information is useful in that it can be used to target the beer consumers based on their consumption habits and location.
+ By visualizing the Ounces of beer bottles and cross referencing this data with ABV we are able to see a pattern.
+ The pattern can then be layed over states to show which states may act as the largest consumers of beer products.
+ Large, lighter blue circles that sit higher on the graph show large, high alcohol content consumption.
+ By tracing the line down from such circles, you can see which state these trends exist in.
+
+```{r}
+theme_set(theme_bw())  
+g <- ggplot(statey2, aes(State, ABV,color=Ounces))
+market<- g + geom_count(show.legend=F) +
+  labs(subtitle="Correlate high ABV and large containers for marketing", 
+       y="ABV", 
+       x="State", 
+       title="Large container consumption by State")
+
+market
+
+```
+  
+                                                Conclusion
+  
+  In summary, the United States has a large and thriving collection of breweries scattered throughout the states. Their are some states where breweries are very prominent. In contrast there are States where there may be only a single brewery. All of the information listed above can be used to increase the sale of beer products. It can also be used to increase the current level of efficiency relted to beer production. For instance, states that already have a high number of breweries may or may not be prime candidates for larger shipments of domestic beer from neighboring States. 
+
+
+
+
+
+```{r}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
+
+
+
