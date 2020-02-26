@@ -418,49 +418,21 @@ colnames(beers)[5] &lt;- &quot;Brew_ID&quot;
 beermerge &lt;- merge(beers,breweries, all = TRUE)</code></pre>
 <p>Question 2 cont. Print the first 6 observations and the last six observations to check the merged file. this does not need to be included in the presentation or the deck.) The below code will grab the first/last 6 observations using the “n” variable to dictate the number to return The head command is used for the first 6 and the tail command is used for the last 6.</p>
 <pre class="r"><code>head(beermerge,n=6)</code></pre>
-<pre><code>##                         Name Brew_ID Beer_ID
-## 1    #001 Golden Amber Lager     212    2149
-## 2       #002 American I.P.A.     212    2148
-## 3 #003 Brown &amp; Robust Porter     212    2147
-## 4        #004 Session I.P.A.     212    2146
-## 5                         #9     304    1813
-## 6                         #9     304     360
-##     ABV IBU                      Style Ounces
-## 1 0.055  NA American Amber / Red Lager     12
-## 2 0.071  60               American IPA     12
-## 3 0.052  NA            American Porter     12
-## 4 0.048  38               American IPA     12
-## 5 0.051  20     Fruit / Vegetable Beer     16
-## 6 0.051  20     Fruit / Vegetable Beer     12
-##   City State
-## 1 &lt;NA&gt;  &lt;NA&gt;
-## 2 &lt;NA&gt;  &lt;NA&gt;
-## 3 &lt;NA&gt;  &lt;NA&gt;
-## 4 &lt;NA&gt;  &lt;NA&gt;
-## 5 &lt;NA&gt;  &lt;NA&gt;
-## 6 &lt;NA&gt;  &lt;NA&gt;</code></pre>
+<pre><code>##                         Name Brew_ID Beer_ID   ABV IBU                      Style Ounces City State
+## 1    #001 Golden Amber Lager     212    2149 0.055  NA American Amber / Red Lager     12 &lt;NA&gt;  &lt;NA&gt;
+## 2       #002 American I.P.A.     212    2148 0.071  60               American IPA     12 &lt;NA&gt;  &lt;NA&gt;
+## 3 #003 Brown &amp; Robust Porter     212    2147 0.052  NA            American Porter     12 &lt;NA&gt;  &lt;NA&gt;
+## 4        #004 Session I.P.A.     212    2146 0.048  38               American IPA     12 &lt;NA&gt;  &lt;NA&gt;
+## 5                         #9     304    1813 0.051  20     Fruit / Vegetable Beer     16 &lt;NA&gt;  &lt;NA&gt;
+## 6                         #9     304     360 0.051  20     Fruit / Vegetable Beer     12 &lt;NA&gt;  &lt;NA&gt;</code></pre>
 <pre class="r"><code>tail(beermerge,n=6)</code></pre>
-<pre><code>##                                  Name Brew_ID
-## 2963  Wolverine State Brewing Company     403
-## 2964             Woodchuck Hard Cider     502
-## 2965 Woodstock Inn, Station &amp; Brewery     110
-## 2966                 Wormtown Brewery     340
-## 2967           Worthy Brewing Company     200
-## 2968          Wynkoop Brewing Company     425
-##      Beer_ID ABV IBU Style Ounces
-## 2963      NA  NA  NA  &lt;NA&gt;     NA
-## 2964      NA  NA  NA  &lt;NA&gt;     NA
-## 2965      NA  NA  NA  &lt;NA&gt;     NA
-## 2966      NA  NA  NA  &lt;NA&gt;     NA
-## 2967      NA  NA  NA  &lt;NA&gt;     NA
-## 2968      NA  NA  NA  &lt;NA&gt;     NA
-##                 City State
-## 2963       Ann Arbor    MI
-## 2964      Middlebury    VT
-## 2965 North Woodstock    NH
-## 2966       Worcester    MA
-## 2967            Bend    OR
-## 2968          Denver    CO</code></pre>
+<pre><code>##                                  Name Brew_ID Beer_ID ABV IBU Style Ounces            City State
+## 2963  Wolverine State Brewing Company     403      NA  NA  NA  &lt;NA&gt;     NA       Ann Arbor    MI
+## 2964             Woodchuck Hard Cider     502      NA  NA  NA  &lt;NA&gt;     NA      Middlebury    VT
+## 2965 Woodstock Inn, Station &amp; Brewery     110      NA  NA  NA  &lt;NA&gt;     NA North Woodstock    NH
+## 2966                 Wormtown Brewery     340      NA  NA  NA  &lt;NA&gt;     NA       Worcester    MA
+## 2967           Worthy Brewing Company     200      NA  NA  NA  &lt;NA&gt;     NA            Bend    OR
+## 2968          Wynkoop Brewing Company     425      NA  NA  NA  &lt;NA&gt;     NA          Denver    CO</code></pre>
 <p>QUESTION 3 The NA values are removed one column at a time The merged dataset contains enough data to allow for them to be removed while still being useful</p>
 <pre class="r"><code>statey &lt;- read.csv(&quot;C:/Users/THEBU/Desktop/Doing Data Science/Week 8/statey2.csv&quot;, header = TRUE, na.strings = &quot;NA&quot;)
 statey2 &lt;- statey %&gt;% drop_na(IBU)
@@ -468,10 +440,8 @@ statey2 &lt;- statey2 %&gt;% drop_na(ABV)</code></pre>
 <p>Question 4 Compute the median alcohol content and international bitterness unit for each state. Plot a bar chart to compare I Manually converetd all State NAs to the correct state. #statey &lt;- read.csv(file.choose())</p>
 <pre class="r"><code># check to ensure that NAs have been 
 colSums(is.na(statey2))</code></pre>
-<pre><code>##       X    Name Brew_ID Beer_ID     ABV     IBU 
-##       0       0       0       0       0       0 
-##   Style  Ounces    City   State 
-##       0       0    1402       0</code></pre>
+<pre><code>##       X    Name Brew_ID Beer_ID     ABV     IBU   Style  Ounces    City   State 
+##       0       0       0       0       0       0       0       0    1402       0</code></pre>
 <pre class="r"><code># The process creates two new columns that serve no purpose so they are removed for to ensure the data is tidy.
 statey2 &lt;- statey2[,-1,-2]
 
@@ -508,915 +478,465 @@ stateIBU </code></pre>
 <p>The most bitter beer is Bitter Bitch Imperial IPA with (Brew_ID 375). It has an IBU of 138. The brewery which makes this beer is located in Astoria, OR.</p>
 <pre class="r"><code>maxabv &lt;- arrange(beermerge,ABV)
 maxabv</code></pre>
-<pre><code>##                                       Name
-## 1                              Scotty K NA
-## 2                              Bikini Beer
-## 3                           Totally Radler
-## 4                              Summer Brew
-## 5                           American Light
-## 6                                      Rad
-## 7                              Rocket Girl
-## 8                      Weiss Trash Culture
-## 9                      Banner American Ale
-## 10            Carolina Blonde Light (2005)
-## 11                        Drop Dead Blonde
-## 12                                    Gose
-## 13                           Montauk Light
-## 14                   Passion Fruit Prussia
-## 15         Back in the Saddle Rye Pale Ale
-## 16                           Gansett Light
-## 17           Pace Setter Belgian Style Wit
-## 18               Pit Stop Chocolate Porter
-## 19                   Chester&#39;s Beer (2005)
-## 20                               Even Keel
-## 21                                 Pub Ale
-## 22                     Sankaty Light Lager
-## 23                         Smooth Operator
-## 24                      Wolfman&#39;s Berliner
-## 25                         Lawnmower Lager
-## 26                Monkey Chased the Weasel
-## 27                          NOLA Brown Ale
-## 28                         Nonstop Hef Hop
-## 29                         Nonstop Hef Hop
-## 30                         Nonstop Hef Hop
-## 31                         Nonstop Hef Hop
-## 32                         Nonstop Hef Hop
-## 33                         Nonstop Hef Hop
-## 34                         Nonstop Hef Hop
-## 35                         Nonstop Hef Hop
-## 36                         Nonstop Hef Hop
-## 37                         Nonstop Hef Hop
-## 38                         Nonstop Hef Hop
-## 39                         Nonstop Hef Hop
-## 40    77 Fremont Select Spring Session IPA
-## 41                           Bitter Brewer
-## 42                        Blackbeary Wheat
-## 43              Carolina Lighthouse (2007)
-## 44                             Cherny Bock
-## 45                        Choc Beer (2003)
-## 46                      Cutthroat Pale Ale
-## 47                        Dead Horse Amber
-## 48                          Flying Mouse 8
-## 49                         Greenwood Beach
-## 50              Hazy Day Belgian-Style Wit
-## 51                   Johnny&#39;s American IPA
-## 52                       Knotty Blonde Ale
-## 53                        Leprechaun Lager
-## 54                               Lobo Lito
-## 55                              Lucky Buck
-## 56                     Minhas Light (2012)
-## 57                             Mustang &#39;33
-## 58                           Nomader Weiss
-## 59                      Norm&#39;s Gateway IPA
-## 60                      Notch Session Pils
-## 61                Organic Baba Black Lager
-## 62                 Ozark American Pale Ale
-## 63                          P-Town Pilsner
-## 64              Rocket Bike American Lager
-## 65                      Session &#39;33 (2011)
-## 66                                Sho&#39;nuff
-## 67      Squatters Full Suspension Pale Ale
-## 68      Squatters Full Suspension Pale Ale
-## 69              Squeaky Bike Nut Brown Ale
-## 70                                   SUM&#39;R
-## 71                      Trader Session IPA
-## 72                     Wachusett Light IPA
-## 73              Wachusett Light IPA (2013)
-## 74              Wasatch Apricot Hefeweizen
-## 75                          Westbrook Gose
-## 76                     WYLD Extra Pale Ale
-## 77                  Yard Sale Winter Lager
-## 78                          American Amber
-## 79                          American Lager
-## 80                        Day Hike Session
-## 81                             HavanÃ¼ther
-## 82                              Mind Games
-## 83                         Rise to the Top
-## 84                     Schlafly Hefeweizen
-## 85                                 Sparkle
-## 86  West Portal Colorado Common Summer Ale
-## 87                     312 Urban Wheat Ale
-## 88                     312 Urban Wheat Ale
-## 89              312 Urban Wheat Ale (2012)
-## 90                                  A Beer
-## 91                             Agave Wheat
-## 92                        Bat Outta Helles
-## 93                          Bear Ass Brown
-## 94                       Blood Orange Gose
-## 95                               Boat Beer
-## 96                             Boxer Light
-## 97                               BrÃ¼nette
-## 98                               Cream Ale
-## 99                 Farmer&#39;s Daughter Wheat
-## 100                   Four Peaks Peach Ale
-## 101                   Golden Trout Pilsner
-## 102                    Gossamer Golden Ale
-## 103                Great Crescent Mild Ale
-## 104         High Country Pilsner (Current)
-## 105                    Humpback Blonde Ale
-## 106                           Island Wheat
-## 107                                 Jammer
-## 108                    Keebarlin&#39; Pale Ale
-## 109                            Longhop IPA
-## 110                         Mexican Logger
-## 111                             Monkadelic
-##     Brew_ID Beer_ID   ABV IBU
-## 1       523     606 0.001  NA
-## 2       174    1286 0.027  NA
-## 3        81    2482 0.027  21
-## 4       110    2306 0.028  15
-## 5       130    2231 0.032  13
-## 6        47    2266 0.032   7
-## 7       529     550 0.032  27
-## 8       411    1417 0.034   6
-## 9       319    1643 0.035  45
-## 10      505     782 0.035  NA
-## 11      132     684 0.035  NA
-## 12       43    2580 0.035  NA
-## 13      250    2024 0.035  NA
-## 14       61    2545 0.035  11
-## 15      449    1047 0.037  53
-## 16      144    2345 0.037  10
-## 17      449    1236 0.037  21
-## 18      449    1237 0.037  34
-## 19      513     737 0.038  NA
-## 20       35    2105 0.038  40
-## 21      246    2033 0.038  18
-## 22      146     359 0.038  NA
-## 23      163    2307 0.038  NA
-## 24      374    1583 0.038  NA
-## 25      156     878 0.039  16
-## 26      223    1941 0.039   9
-## 27      175     485 0.039  NA
-## 28       81    2400 0.039  20
-## 29       81    2399 0.039  20
-## 30       81    2398 0.039  20
-## 31       81    2397 0.039  20
-## 32       81    2396 0.039  20
-## 33       81    2395 0.039  20
-## 34       81    2394 0.039  20
-## 35       81    2393 0.039  20
-## 36       81    2392 0.039  20
-## 37       81    2391 0.039  20
-## 38       81    2390 0.039  20
-## 39       81    2389 0.039  20
-## 40      461    1174 0.040  NA
-## 41       62      19 0.040  37
-## 42      269     574 0.040   8
-## 43      505     784 0.040  NA
-## 44      365     344 0.040  NA
-## 45      506     781 0.040   9
-## 46      160    1088 0.040  34
-## 47      400     902 0.040  NA
-## 48       51    2567 0.040  NA
-## 49      211    1982 0.040  NA
-## 50      380    1186 0.040  20
-## 51      400     644 0.040  NA
-## 52      154    2319 0.040  18
-## 53      349    1657 0.040  NA
-## 54      188    2238 0.040  12
-## 55      282    1890 0.040  34
-## 56      135    2358 0.040  NA
-## 57      367     862 0.040  NA
-## 58      174    2283 0.040  NA
-## 59      125    2007 0.040  55
-## 60      272    1190 0.040  NA
-## 61      160    1097 0.040  32
-## 62      260    1961 0.040  39
-## 63      118    2403 0.040  20
-## 64      400     645 0.040  NA
-## 65      367     699 0.040  NA
-## 66        2    2680 0.040  13
-## 67      303    1826 0.040  NA
-## 68      303    1679 0.040  NA
-## 69      400    1476 0.040  NA
-## 70      160    1212 0.040  17
-## 71      160    1925 0.040  42
-## 72      296    1846 0.040  37
-## 73      296    1029 0.040  37
-## 74      303    1681 0.040  NA
-## 75      385    1312 0.040   5
-## 76      160     974 0.040  29
-## 77      160    2100 0.040  22
-## 78      130    2232 0.041   8
-## 79      130    2233 0.041   8
-## 80      191    2235 0.041  41
-## 81      391    1526 0.041  NA
-## 82       11    2465 0.041  NA
-## 83      143    1780 0.041  NA
-## 84      429     588 0.041  16
-## 85       12    2635 0.041  12
-## 86      221    1422 0.041  NA
-## 87       89    2201 0.042  18
-## 88       89    1829 0.042  18
-## 89       89     581 0.042  20
-## 90        2    2683 0.042  42
-## 91      392    1522 0.042   9
-## 92       67    2524 0.042  20
-## 93      552     212 0.042  NA
-## 94      172    2291 0.042  NA
-## 95      223    1439 0.042  35
-## 96      135    2275 0.042  NA
-## 97      391    1527 0.042  NA
-## 98      239    2050 0.042  35
-## 99      206    1956 0.042  NA
-## 100     161    1585 0.042   9
-## 101     535      74 0.042  NA
-## 102     328     149 0.042  NA
-## 103     166     439 0.042  26
-## 104     535     511 0.042  NA
-## 105     204    2184 0.042  22
-## 106     193     180 0.042  NA
-## 107      47    2479 0.042  16
-## 108     172    1818 0.042  NA
-## 109     282    1891 0.042  30
-## 110     265     386 0.042  18
-## 111     190    2236 0.042  NA
-##                              Style Ounces City
-## 1                 Low Alcohol Beer     16 &lt;NA&gt;
-## 2                     American IPA     12 &lt;NA&gt;
-## 3                           Radler     16 &lt;NA&gt;
-## 4                 American Pilsner     12 &lt;NA&gt;
-## 5                      Light Lager     12 &lt;NA&gt;
-## 6           Fruit / Vegetable Beer     16 &lt;NA&gt;
-## 7                          KÃ¶lsch     12 &lt;NA&gt;
-## 8               Berliner Weissbier     12 &lt;NA&gt;
-## 9         American Amber / Red Ale     12 &lt;NA&gt;
-## 10             American Blonde Ale     12 &lt;NA&gt;
-## 11             American Blonde Ale     12 &lt;NA&gt;
-## 12                            Gose     16 &lt;NA&gt;
-## 13                     Light Lager     12 &lt;NA&gt;
-## 14              Berliner Weissbier     12 &lt;NA&gt;
-## 15         American Pale Ale (APA)     12 &lt;NA&gt;
-## 16                     Light Lager     16 &lt;NA&gt;
-## 17                         Witbier     12 &lt;NA&gt;
-## 18                 American Porter     12 &lt;NA&gt;
-## 19             American Pale Lager     12 &lt;NA&gt;
-## 20                    American IPA     12 &lt;NA&gt;
-## 21           English Dark Mild Ale     12 &lt;NA&gt;
-## 22                     Light Lager     12 &lt;NA&gt;
-## 23                       Cream Ale     16 &lt;NA&gt;
-## 24              Berliner Weissbier     12 &lt;NA&gt;
-## 25          American Adjunct Lager     12 &lt;NA&gt;
-## 26              Berliner Weissbier     16 &lt;NA&gt;
-## 27           English Dark Mild Ale     12 &lt;NA&gt;
-## 28         American Pale Wheat Ale     16 &lt;NA&gt;
-## 29         American Pale Wheat Ale     16 &lt;NA&gt;
-## 30         American Pale Wheat Ale     16 &lt;NA&gt;
-## 31         American Pale Wheat Ale     16 &lt;NA&gt;
-## 32         American Pale Wheat Ale     16 &lt;NA&gt;
-## 33         American Pale Wheat Ale     16 &lt;NA&gt;
-## 34         American Pale Wheat Ale     16 &lt;NA&gt;
-## 35         American Pale Wheat Ale     16 &lt;NA&gt;
-## 36         American Pale Wheat Ale     16 &lt;NA&gt;
-## 37         American Pale Wheat Ale     16 &lt;NA&gt;
-## 38         American Pale Wheat Ale     16 &lt;NA&gt;
-## 39         American Pale Wheat Ale     16 &lt;NA&gt;
-## 40                    American IPA     12 &lt;NA&gt;
-## 41                  English Bitter     16 &lt;NA&gt;
-## 42          Fruit / Vegetable Beer     12 &lt;NA&gt;
-## 43             American Blonde Ale     12 &lt;NA&gt;
-## 44                     Schwarzbier     12 &lt;NA&gt;
-## 45         American Dark Wheat Ale     12 &lt;NA&gt;
-## 46         American Pale Ale (APA)     12 &lt;NA&gt;
-## 47         American Pale Wheat Ale     16 &lt;NA&gt;
-## 48                 American Porter     12 &lt;NA&gt;
-## 49          Fruit / Vegetable Beer     12 &lt;NA&gt;
-## 50                         Witbier     16 &lt;NA&gt;
-## 51                    American IPA     16 &lt;NA&gt;
-## 52             American Blonde Ale     12 &lt;NA&gt;
-## 53             American Pale Lager     12 &lt;NA&gt;
-## 54                     Light Lager     12 &lt;NA&gt;
-## 55                 Irish Dry Stout     16 &lt;NA&gt;
-## 56                     Light Lager     12 &lt;NA&gt;
-## 57             American Pale Lager     12 &lt;NA&gt;
-## 58              Berliner Weissbier     12 &lt;NA&gt;
-## 59                    American IPA     12 &lt;NA&gt;
-## 60                  Czech Pilsener     12 &lt;NA&gt;
-## 61                     Schwarzbier     12 &lt;NA&gt;
-## 62         American Pale Ale (APA)     12 &lt;NA&gt;
-## 63                American Pilsner     12 &lt;NA&gt;
-## 64  California Common / Steam Beer     16 &lt;NA&gt;
-## 65             American Pale Lager     12 &lt;NA&gt;
-## 66                Belgian Pale Ale     16 &lt;NA&gt;
-## 67         American Pale Ale (APA)     12 &lt;NA&gt;
-## 68         American Pale Ale (APA)     12 &lt;NA&gt;
-## 69              American Brown Ale     16 &lt;NA&gt;
-## 70             American Blonde Ale     12 &lt;NA&gt;
-## 71                    American IPA     12 &lt;NA&gt;
-## 72                    American IPA     12 &lt;NA&gt;
-## 73                    American IPA     12 &lt;NA&gt;
-## 74          Fruit / Vegetable Beer     12 &lt;NA&gt;
-## 75                            Gose     12 &lt;NA&gt;
-## 76         American Pale Ale (APA)     12 &lt;NA&gt;
-## 77      American Amber / Red Lager     12 &lt;NA&gt;
-## 78      American Amber / Red Lager     12 &lt;NA&gt;
-## 79          American Adjunct Lager     12 &lt;NA&gt;
-## 80                    American IPA     12 &lt;NA&gt;
-## 81                     Light Lager     16 &lt;NA&gt;
-## 82                    Dunkelweizen     16 &lt;NA&gt;
-## 83                       Cream Ale     12 &lt;NA&gt;
-## 84                      Hefeweizen     12 &lt;NA&gt;
-## 85             American Pale Lager     16 &lt;NA&gt;
-## 86  California Common / Steam Beer     16 &lt;NA&gt;
-## 87         American Pale Wheat Ale     16 &lt;NA&gt;
-## 88         American Pale Wheat Ale     12 &lt;NA&gt;
-## 89         American Pale Wheat Ale     12 &lt;NA&gt;
-## 90         American Pale Ale (APA)     16 &lt;NA&gt;
-## 91         American Pale Wheat Ale     12 &lt;NA&gt;
-## 92             Munich Helles Lager     12 &lt;NA&gt;
-## 93              American Brown Ale     12 &lt;NA&gt;
-## 94                            Gose     12 &lt;NA&gt;
-## 95                    American IPA     12 &lt;NA&gt;
-## 96                     Light Lager     12 &lt;NA&gt;
-## 97                 Euro Dark Lager     16 &lt;NA&gt;
-## 98                       Cream Ale     12 &lt;NA&gt;
-## 99         American Pale Wheat Ale     12 &lt;NA&gt;
-## 100         Fruit / Vegetable Beer     12 &lt;NA&gt;
-## 101                German Pilsener     12 &lt;NA&gt;
-## 102            American Blonde Ale     16 &lt;NA&gt;
-## 103          English Dark Mild Ale     16 &lt;NA&gt;
-## 104                German Pilsener     12 &lt;NA&gt;
-## 105            American Blonde Ale     12 &lt;NA&gt;
-## 106        American Pale Wheat Ale     12 &lt;NA&gt;
-## 107                           Gose     12 &lt;NA&gt;
-## 108        American Pale Ale (APA)     12 &lt;NA&gt;
-## 109                   American IPA     16 &lt;NA&gt;
-## 110            American Pale Lager     12 &lt;NA&gt;
-## 111        American Pale Ale (APA)     12 &lt;NA&gt;
-##     State
-## 1    &lt;NA&gt;
-## 2    &lt;NA&gt;
-## 3    &lt;NA&gt;
-## 4    &lt;NA&gt;
-## 5    &lt;NA&gt;
-## 6    &lt;NA&gt;
-## 7    &lt;NA&gt;
-## 8    &lt;NA&gt;
-## 9    &lt;NA&gt;
-## 10   &lt;NA&gt;
-## 11   &lt;NA&gt;
-## 12   &lt;NA&gt;
-## 13   &lt;NA&gt;
-## 14   &lt;NA&gt;
-## 15   &lt;NA&gt;
-## 16   &lt;NA&gt;
-## 17   &lt;NA&gt;
-## 18   &lt;NA&gt;
-## 19   &lt;NA&gt;
-## 20   &lt;NA&gt;
-## 21   &lt;NA&gt;
-## 22   &lt;NA&gt;
-## 23   &lt;NA&gt;
-## 24   &lt;NA&gt;
-## 25   &lt;NA&gt;
-## 26   &lt;NA&gt;
-## 27   &lt;NA&gt;
-## 28   &lt;NA&gt;
-## 29   &lt;NA&gt;
-## 30   &lt;NA&gt;
-## 31   &lt;NA&gt;
-## 32   &lt;NA&gt;
-## 33   &lt;NA&gt;
-## 34   &lt;NA&gt;
-## 35   &lt;NA&gt;
-## 36   &lt;NA&gt;
-## 37   &lt;NA&gt;
-## 38   &lt;NA&gt;
-## 39   &lt;NA&gt;
-## 40   &lt;NA&gt;
-## 41   &lt;NA&gt;
-## 42   &lt;NA&gt;
-## 43   &lt;NA&gt;
-## 44   &lt;NA&gt;
-## 45   &lt;NA&gt;
-## 46   &lt;NA&gt;
-## 47   &lt;NA&gt;
-## 48   &lt;NA&gt;
-## 49   &lt;NA&gt;
-## 50   &lt;NA&gt;
-## 51   &lt;NA&gt;
-## 52   &lt;NA&gt;
-## 53   &lt;NA&gt;
-## 54   &lt;NA&gt;
-## 55   &lt;NA&gt;
-## 56   &lt;NA&gt;
-## 57   &lt;NA&gt;
-## 58   &lt;NA&gt;
-## 59   &lt;NA&gt;
-## 60   &lt;NA&gt;
-## 61   &lt;NA&gt;
-## 62   &lt;NA&gt;
-## 63   &lt;NA&gt;
-## 64   &lt;NA&gt;
-## 65   &lt;NA&gt;
-## 66   &lt;NA&gt;
-## 67   &lt;NA&gt;
-## 68   &lt;NA&gt;
-## 69   &lt;NA&gt;
-## 70   &lt;NA&gt;
-## 71   &lt;NA&gt;
-## 72   &lt;NA&gt;
-## 73   &lt;NA&gt;
-## 74   &lt;NA&gt;
-## 75   &lt;NA&gt;
-## 76   &lt;NA&gt;
-## 77   &lt;NA&gt;
-## 78   &lt;NA&gt;
-## 79   &lt;NA&gt;
-## 80   &lt;NA&gt;
-## 81   &lt;NA&gt;
-## 82   &lt;NA&gt;
-## 83   &lt;NA&gt;
-## 84   &lt;NA&gt;
-## 85   &lt;NA&gt;
-## 86   &lt;NA&gt;
-## 87   &lt;NA&gt;
-## 88   &lt;NA&gt;
-## 89   &lt;NA&gt;
-## 90   &lt;NA&gt;
-## 91   &lt;NA&gt;
-## 92   &lt;NA&gt;
-## 93   &lt;NA&gt;
-## 94   &lt;NA&gt;
-## 95   &lt;NA&gt;
-## 96   &lt;NA&gt;
-## 97   &lt;NA&gt;
-## 98   &lt;NA&gt;
-## 99   &lt;NA&gt;
-## 100  &lt;NA&gt;
-## 101  &lt;NA&gt;
-## 102  &lt;NA&gt;
-## 103  &lt;NA&gt;
-## 104  &lt;NA&gt;
-## 105  &lt;NA&gt;
-## 106  &lt;NA&gt;
-## 107  &lt;NA&gt;
-## 108  &lt;NA&gt;
-## 109  &lt;NA&gt;
-## 110  &lt;NA&gt;
-## 111  &lt;NA&gt;
+<pre><code>##                                       Name Brew_ID Beer_ID   ABV IBU                          Style
+## 1                              Scotty K NA     523     606 0.001  NA               Low Alcohol Beer
+## 2                              Bikini Beer     174    1286 0.027  NA                   American IPA
+## 3                           Totally Radler      81    2482 0.027  21                         Radler
+## 4                              Summer Brew     110    2306 0.028  15               American Pilsner
+## 5                           American Light     130    2231 0.032  13                    Light Lager
+## 6                                      Rad      47    2266 0.032   7         Fruit / Vegetable Beer
+## 7                              Rocket Girl     529     550 0.032  27                        KÃ¶lsch
+## 8                      Weiss Trash Culture     411    1417 0.034   6             Berliner Weissbier
+## 9                      Banner American Ale     319    1643 0.035  45       American Amber / Red Ale
+## 10            Carolina Blonde Light (2005)     505     782 0.035  NA            American Blonde Ale
+## 11                        Drop Dead Blonde     132     684 0.035  NA            American Blonde Ale
+## 12                                    Gose      43    2580 0.035  NA                           Gose
+## 13                           Montauk Light     250    2024 0.035  NA                    Light Lager
+## 14                   Passion Fruit Prussia      61    2545 0.035  11             Berliner Weissbier
+## 15         Back in the Saddle Rye Pale Ale     449    1047 0.037  53        American Pale Ale (APA)
+## 16                           Gansett Light     144    2345 0.037  10                    Light Lager
+## 17           Pace Setter Belgian Style Wit     449    1236 0.037  21                        Witbier
+## 18               Pit Stop Chocolate Porter     449    1237 0.037  34                American Porter
+## 19                   Chester&#39;s Beer (2005)     513     737 0.038  NA            American Pale Lager
+## 20                               Even Keel      35    2105 0.038  40                   American IPA
+## 21                                 Pub Ale     246    2033 0.038  18          English Dark Mild Ale
+## 22                     Sankaty Light Lager     146     359 0.038  NA                    Light Lager
+## 23                         Smooth Operator     163    2307 0.038  NA                      Cream Ale
+## 24                      Wolfman&#39;s Berliner     374    1583 0.038  NA             Berliner Weissbier
+## 25                         Lawnmower Lager     156     878 0.039  16         American Adjunct Lager
+## 26                Monkey Chased the Weasel     223    1941 0.039   9             Berliner Weissbier
+## 27                          NOLA Brown Ale     175     485 0.039  NA          English Dark Mild Ale
+## 28                         Nonstop Hef Hop      81    2400 0.039  20        American Pale Wheat Ale
+## 29                         Nonstop Hef Hop      81    2399 0.039  20        American Pale Wheat Ale
+## 30                         Nonstop Hef Hop      81    2398 0.039  20        American Pale Wheat Ale
+## 31                         Nonstop Hef Hop      81    2397 0.039  20        American Pale Wheat Ale
+## 32                         Nonstop Hef Hop      81    2396 0.039  20        American Pale Wheat Ale
+## 33                         Nonstop Hef Hop      81    2395 0.039  20        American Pale Wheat Ale
+## 34                         Nonstop Hef Hop      81    2394 0.039  20        American Pale Wheat Ale
+## 35                         Nonstop Hef Hop      81    2393 0.039  20        American Pale Wheat Ale
+## 36                         Nonstop Hef Hop      81    2392 0.039  20        American Pale Wheat Ale
+## 37                         Nonstop Hef Hop      81    2391 0.039  20        American Pale Wheat Ale
+## 38                         Nonstop Hef Hop      81    2390 0.039  20        American Pale Wheat Ale
+## 39                         Nonstop Hef Hop      81    2389 0.039  20        American Pale Wheat Ale
+## 40    77 Fremont Select Spring Session IPA     461    1174 0.040  NA                   American IPA
+## 41                           Bitter Brewer      62      19 0.040  37                 English Bitter
+## 42                        Blackbeary Wheat     269     574 0.040   8         Fruit / Vegetable Beer
+## 43              Carolina Lighthouse (2007)     505     784 0.040  NA            American Blonde Ale
+## 44                             Cherny Bock     365     344 0.040  NA                    Schwarzbier
+## 45                        Choc Beer (2003)     506     781 0.040   9        American Dark Wheat Ale
+## 46                      Cutthroat Pale Ale     160    1088 0.040  34        American Pale Ale (APA)
+## 47                        Dead Horse Amber     400     902 0.040  NA        American Pale Wheat Ale
+## 48                          Flying Mouse 8      51    2567 0.040  NA                American Porter
+## 49                         Greenwood Beach     211    1982 0.040  NA         Fruit / Vegetable Beer
+## 50              Hazy Day Belgian-Style Wit     380    1186 0.040  20                        Witbier
+## 51                   Johnny&#39;s American IPA     400     644 0.040  NA                   American IPA
+## 52                       Knotty Blonde Ale     154    2319 0.040  18            American Blonde Ale
+## 53                        Leprechaun Lager     349    1657 0.040  NA            American Pale Lager
+## 54                               Lobo Lito     188    2238 0.040  12                    Light Lager
+## 55                              Lucky Buck     282    1890 0.040  34                Irish Dry Stout
+## 56                     Minhas Light (2012)     135    2358 0.040  NA                    Light Lager
+## 57                             Mustang &#39;33     367     862 0.040  NA            American Pale Lager
+## 58                           Nomader Weiss     174    2283 0.040  NA             Berliner Weissbier
+## 59                      Norm&#39;s Gateway IPA     125    2007 0.040  55                   American IPA
+## 60                      Notch Session Pils     272    1190 0.040  NA                 Czech Pilsener
+## 61                Organic Baba Black Lager     160    1097 0.040  32                    Schwarzbier
+## 62                 Ozark American Pale Ale     260    1961 0.040  39        American Pale Ale (APA)
+## 63                          P-Town Pilsner     118    2403 0.040  20               American Pilsner
+## 64              Rocket Bike American Lager     400     645 0.040  NA California Common / Steam Beer
+## 65                      Session &#39;33 (2011)     367     699 0.040  NA            American Pale Lager
+## 66                                Sho&#39;nuff       2    2680 0.040  13               Belgian Pale Ale
+## 67      Squatters Full Suspension Pale Ale     303    1826 0.040  NA        American Pale Ale (APA)
+## 68      Squatters Full Suspension Pale Ale     303    1679 0.040  NA        American Pale Ale (APA)
+## 69              Squeaky Bike Nut Brown Ale     400    1476 0.040  NA             American Brown Ale
+## 70                                   SUM&#39;R     160    1212 0.040  17            American Blonde Ale
+## 71                      Trader Session IPA     160    1925 0.040  42                   American IPA
+## 72                     Wachusett Light IPA     296    1846 0.040  37                   American IPA
+## 73              Wachusett Light IPA (2013)     296    1029 0.040  37                   American IPA
+## 74              Wasatch Apricot Hefeweizen     303    1681 0.040  NA         Fruit / Vegetable Beer
+## 75                          Westbrook Gose     385    1312 0.040   5                           Gose
+## 76                     WYLD Extra Pale Ale     160     974 0.040  29        American Pale Ale (APA)
+## 77                  Yard Sale Winter Lager     160    2100 0.040  22     American Amber / Red Lager
+## 78                          American Amber     130    2232 0.041   8     American Amber / Red Lager
+## 79                          American Lager     130    2233 0.041   8         American Adjunct Lager
+## 80                        Day Hike Session     191    2235 0.041  41                   American IPA
+## 81                             HavanÃ¼ther     391    1526 0.041  NA                    Light Lager
+## 82                              Mind Games      11    2465 0.041  NA                   Dunkelweizen
+## 83                         Rise to the Top     143    1780 0.041  NA                      Cream Ale
+## 84                     Schlafly Hefeweizen     429     588 0.041  16                     Hefeweizen
+## 85                                 Sparkle      12    2635 0.041  12            American Pale Lager
+## 86  West Portal Colorado Common Summer Ale     221    1422 0.041  NA California Common / Steam Beer
+## 87                     312 Urban Wheat Ale      89    2201 0.042  18        American Pale Wheat Ale
+## 88                     312 Urban Wheat Ale      89    1829 0.042  18        American Pale Wheat Ale
+## 89              312 Urban Wheat Ale (2012)      89     581 0.042  20        American Pale Wheat Ale
+## 90                                  A Beer       2    2683 0.042  42        American Pale Ale (APA)
+## 91                             Agave Wheat     392    1522 0.042   9        American Pale Wheat Ale
+## 92                        Bat Outta Helles      67    2524 0.042  20            Munich Helles Lager
+## 93                          Bear Ass Brown     552     212 0.042  NA             American Brown Ale
+## 94                       Blood Orange Gose     172    2291 0.042  NA                           Gose
+## 95                               Boat Beer     223    1439 0.042  35                   American IPA
+## 96                             Boxer Light     135    2275 0.042  NA                    Light Lager
+## 97                               BrÃ¼nette     391    1527 0.042  NA                Euro Dark Lager
+## 98                               Cream Ale     239    2050 0.042  35                      Cream Ale
+## 99                 Farmer&#39;s Daughter Wheat     206    1956 0.042  NA        American Pale Wheat Ale
+## 100                   Four Peaks Peach Ale     161    1585 0.042   9         Fruit / Vegetable Beer
+## 101                   Golden Trout Pilsner     535      74 0.042  NA                German Pilsener
+## 102                    Gossamer Golden Ale     328     149 0.042  NA            American Blonde Ale
+## 103                Great Crescent Mild Ale     166     439 0.042  26          English Dark Mild Ale
+## 104         High Country Pilsner (Current)     535     511 0.042  NA                German Pilsener
+## 105                    Humpback Blonde Ale     204    2184 0.042  22            American Blonde Ale
+## 106                           Island Wheat     193     180 0.042  NA        American Pale Wheat Ale
+## 107                                 Jammer      47    2479 0.042  16                           Gose
+## 108                    Keebarlin&#39; Pale Ale     172    1818 0.042  NA        American Pale Ale (APA)
+## 109                            Longhop IPA     282    1891 0.042  30                   American IPA
+## 110                         Mexican Logger     265     386 0.042  18            American Pale Lager
+## 111                             Monkadelic     190    2236 0.042  NA        American Pale Ale (APA)
+##     Ounces City State
+## 1       16 &lt;NA&gt;  &lt;NA&gt;
+## 2       12 &lt;NA&gt;  &lt;NA&gt;
+## 3       16 &lt;NA&gt;  &lt;NA&gt;
+## 4       12 &lt;NA&gt;  &lt;NA&gt;
+## 5       12 &lt;NA&gt;  &lt;NA&gt;
+## 6       16 &lt;NA&gt;  &lt;NA&gt;
+## 7       12 &lt;NA&gt;  &lt;NA&gt;
+## 8       12 &lt;NA&gt;  &lt;NA&gt;
+## 9       12 &lt;NA&gt;  &lt;NA&gt;
+## 10      12 &lt;NA&gt;  &lt;NA&gt;
+## 11      12 &lt;NA&gt;  &lt;NA&gt;
+## 12      16 &lt;NA&gt;  &lt;NA&gt;
+## 13      12 &lt;NA&gt;  &lt;NA&gt;
+## 14      12 &lt;NA&gt;  &lt;NA&gt;
+## 15      12 &lt;NA&gt;  &lt;NA&gt;
+## 16      16 &lt;NA&gt;  &lt;NA&gt;
+## 17      12 &lt;NA&gt;  &lt;NA&gt;
+## 18      12 &lt;NA&gt;  &lt;NA&gt;
+## 19      12 &lt;NA&gt;  &lt;NA&gt;
+## 20      12 &lt;NA&gt;  &lt;NA&gt;
+## 21      12 &lt;NA&gt;  &lt;NA&gt;
+## 22      12 &lt;NA&gt;  &lt;NA&gt;
+## 23      16 &lt;NA&gt;  &lt;NA&gt;
+## 24      12 &lt;NA&gt;  &lt;NA&gt;
+## 25      12 &lt;NA&gt;  &lt;NA&gt;
+## 26      16 &lt;NA&gt;  &lt;NA&gt;
+## 27      12 &lt;NA&gt;  &lt;NA&gt;
+## 28      16 &lt;NA&gt;  &lt;NA&gt;
+## 29      16 &lt;NA&gt;  &lt;NA&gt;
+## 30      16 &lt;NA&gt;  &lt;NA&gt;
+## 31      16 &lt;NA&gt;  &lt;NA&gt;
+## 32      16 &lt;NA&gt;  &lt;NA&gt;
+## 33      16 &lt;NA&gt;  &lt;NA&gt;
+## 34      16 &lt;NA&gt;  &lt;NA&gt;
+## 35      16 &lt;NA&gt;  &lt;NA&gt;
+## 36      16 &lt;NA&gt;  &lt;NA&gt;
+## 37      16 &lt;NA&gt;  &lt;NA&gt;
+## 38      16 &lt;NA&gt;  &lt;NA&gt;
+## 39      16 &lt;NA&gt;  &lt;NA&gt;
+## 40      12 &lt;NA&gt;  &lt;NA&gt;
+## 41      16 &lt;NA&gt;  &lt;NA&gt;
+## 42      12 &lt;NA&gt;  &lt;NA&gt;
+## 43      12 &lt;NA&gt;  &lt;NA&gt;
+## 44      12 &lt;NA&gt;  &lt;NA&gt;
+## 45      12 &lt;NA&gt;  &lt;NA&gt;
+## 46      12 &lt;NA&gt;  &lt;NA&gt;
+## 47      16 &lt;NA&gt;  &lt;NA&gt;
+## 48      12 &lt;NA&gt;  &lt;NA&gt;
+## 49      12 &lt;NA&gt;  &lt;NA&gt;
+## 50      16 &lt;NA&gt;  &lt;NA&gt;
+## 51      16 &lt;NA&gt;  &lt;NA&gt;
+## 52      12 &lt;NA&gt;  &lt;NA&gt;
+## 53      12 &lt;NA&gt;  &lt;NA&gt;
+## 54      12 &lt;NA&gt;  &lt;NA&gt;
+## 55      16 &lt;NA&gt;  &lt;NA&gt;
+## 56      12 &lt;NA&gt;  &lt;NA&gt;
+## 57      12 &lt;NA&gt;  &lt;NA&gt;
+## 58      12 &lt;NA&gt;  &lt;NA&gt;
+## 59      12 &lt;NA&gt;  &lt;NA&gt;
+## 60      12 &lt;NA&gt;  &lt;NA&gt;
+## 61      12 &lt;NA&gt;  &lt;NA&gt;
+## 62      12 &lt;NA&gt;  &lt;NA&gt;
+## 63      12 &lt;NA&gt;  &lt;NA&gt;
+## 64      16 &lt;NA&gt;  &lt;NA&gt;
+## 65      12 &lt;NA&gt;  &lt;NA&gt;
+## 66      16 &lt;NA&gt;  &lt;NA&gt;
+## 67      12 &lt;NA&gt;  &lt;NA&gt;
+## 68      12 &lt;NA&gt;  &lt;NA&gt;
+## 69      16 &lt;NA&gt;  &lt;NA&gt;
+## 70      12 &lt;NA&gt;  &lt;NA&gt;
+## 71      12 &lt;NA&gt;  &lt;NA&gt;
+## 72      12 &lt;NA&gt;  &lt;NA&gt;
+## 73      12 &lt;NA&gt;  &lt;NA&gt;
+## 74      12 &lt;NA&gt;  &lt;NA&gt;
+## 75      12 &lt;NA&gt;  &lt;NA&gt;
+## 76      12 &lt;NA&gt;  &lt;NA&gt;
+## 77      12 &lt;NA&gt;  &lt;NA&gt;
+## 78      12 &lt;NA&gt;  &lt;NA&gt;
+## 79      12 &lt;NA&gt;  &lt;NA&gt;
+## 80      12 &lt;NA&gt;  &lt;NA&gt;
+## 81      16 &lt;NA&gt;  &lt;NA&gt;
+## 82      16 &lt;NA&gt;  &lt;NA&gt;
+## 83      12 &lt;NA&gt;  &lt;NA&gt;
+## 84      12 &lt;NA&gt;  &lt;NA&gt;
+## 85      16 &lt;NA&gt;  &lt;NA&gt;
+## 86      16 &lt;NA&gt;  &lt;NA&gt;
+## 87      16 &lt;NA&gt;  &lt;NA&gt;
+## 88      12 &lt;NA&gt;  &lt;NA&gt;
+## 89      12 &lt;NA&gt;  &lt;NA&gt;
+## 90      16 &lt;NA&gt;  &lt;NA&gt;
+## 91      12 &lt;NA&gt;  &lt;NA&gt;
+## 92      12 &lt;NA&gt;  &lt;NA&gt;
+## 93      12 &lt;NA&gt;  &lt;NA&gt;
+## 94      12 &lt;NA&gt;  &lt;NA&gt;
+## 95      12 &lt;NA&gt;  &lt;NA&gt;
+## 96      12 &lt;NA&gt;  &lt;NA&gt;
+## 97      16 &lt;NA&gt;  &lt;NA&gt;
+## 98      12 &lt;NA&gt;  &lt;NA&gt;
+## 99      12 &lt;NA&gt;  &lt;NA&gt;
+## 100     12 &lt;NA&gt;  &lt;NA&gt;
+## 101     12 &lt;NA&gt;  &lt;NA&gt;
+## 102     16 &lt;NA&gt;  &lt;NA&gt;
+## 103     16 &lt;NA&gt;  &lt;NA&gt;
+## 104     12 &lt;NA&gt;  &lt;NA&gt;
+## 105     12 &lt;NA&gt;  &lt;NA&gt;
+## 106     12 &lt;NA&gt;  &lt;NA&gt;
+## 107     12 &lt;NA&gt;  &lt;NA&gt;
+## 108     12 &lt;NA&gt;  &lt;NA&gt;
+## 109     16 &lt;NA&gt;  &lt;NA&gt;
+## 110     12 &lt;NA&gt;  &lt;NA&gt;
+## 111     12 &lt;NA&gt;  &lt;NA&gt;
 ##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 2857 rows ]</code></pre>
 <pre class="r"><code># Which state has the most bitter (IBU) beer?
 # The arrange function is used to list the IBU values in ascending order which easily shows the highest value.
 mostibu &lt;- arrange(beermerge,IBU)
 mostibu</code></pre>
-<pre><code>##                                     Name
-## 1                        Summer Solstice
-## 2                 Summer Solstice (2011)
-## 3   Summer Solstice Cerveza Crema (2009)
-## 4                  18th Anniversary Gose
-## 5                    Chickawawa Lemonale
-## 6          Devils Tramping Ground Tripel
-## 7                         Westbrook Gose
-## 8                     Yo Soy Un Berliner
-## 9                           Mr. Blue Sky
-## 10                   Weiss Trash Culture
-## 11                       Winter Solstice
-## 12                       O&#39;Fallon Wheach
-## 13         Point Nude Beach Summer Wheat
-## 14         Point Nude Beach Summer Wheat
-## 15  Point Nude Beach Summer Wheat (2010)
-## 16  Point Nude Beach Summer Wheat (2011)
-## 17                                   Rad
-## 18               Samuel Adams Summer Ale
-## 19                             Ale Cider
-## 20                        American Amber
-## 21                        American Lager
-## 22               Black Market Hefeweizen
-## 23                      Blackbeary Wheat
-## 24                             Daft Funk
-## 25                      Dirty Blonde Ale
-## 26                                  Gose
-## 27                          Porch Rocker
-## 28                           Agave Wheat
-## 29                      Choc Beer (2003)
-## 30                  Four Peaks Peach Ale
-## 31              Monkey Chased the Weasel
-## 32                        Onyx Black Ale
-## 33                         Point Special
-## 34                         Point Special
-## 35                  Point Special (2012)
-## 36                  Point Special (2013)
-## 37               Point Special (Current)
-## 38                   Point Special Lager
-## 39                   Point Special Lager
-## 40                         Two-One Niner
-## 41                          Beach Blonde
-## 42                    Blood Orange Honey
-## 43                          Cotton Mouth
-## 44                        EOS Hefeweizen
-## 45                         Gansett Light
-## 46                          Hotbox Brown
-## 47                King Street Hefeweizen
-## 48                             Mo&#39;s Gose
-## 49                    Mustang Golden Ale
-## 50                               Old Pro
-## 51                                PUNK&#39;N
-## 52                               Rye Wit
-## 53                 Sweet Yamma Jamma Ale
-## 54                             UFO White
-## 55               Wachusett Blueberry Ale
-## 56                        Watermelon Ale
-## 57                          White Rascal
-## 58                        Widespread Wit
-## 59                                Apollo
-## 60                      Blackberry Wheat
-## 61                 Cold Smoke Scotch Ale
-## 62          Cold Smoke Scotch Ale (2007)
-## 63                        El Hefe Speaks
-## 64                                  LIFT
-## 65                 Oval Beach Blonde Ale
-## 66                 Passion Fruit Prussia
-## 67                Rhode Island Blueberry
-## 68                      Royal Weisse Ale
-## 69                            Shark Bait
-## 70                         Shotgun Betty
-## 71                        Vanilla Porter
-## 72                        Watermelon Ale
-## 73                       Wick For Brains
-## 74                       Atwater&#39;s Lager
-## 75                  Blueberry Blonde Ale
-## 76                         Broken Bridge
-## 77                Damascene Apricot Sour
-## 78                   Dry Dock Hefeweizen
-## 79                                Festie
-## 80                  Full Boar Scotch Ale
-## 81                     Here Gose Nothin&#39;
-## 82                      La Perouse White
-## 83                Laughing Dog Cream Ale
-## 84                             Lobo Lito
-## 85                    Snowshoe White Ale
-## 86                               Sparkle
-## 87                     Tallgrass Pub Ale
-## 88                   Vanilla Java Porter
-## 89                     Woolybugger Wheat
-## 90                    541 American Lager
-## 91                        American Light
-## 92            Barney Flats Oatmeal Stout
-## 93            Barney Flats Oatmeal Stout
-## 94     Barney Flats Oatmeal Stout (2012)
-## 95                           Elder Betty
-## 96      Great Crescent Belgian Style Wit
-## 97                           Purple Haze
-## 98                              Sho&#39;nuff
-## 99                       Three Kings Ale
-## 100                     Wheat the People
-## 101                Wild Onion Summer Wit
-## 102                Bottom Up Belgian Wit
-## 103                   Couch Select Lager
-## 104               Hangar 24 Helles Lager
-## 105                          Honey Wheat
-## 106         Morning Wood Wheat (Current)
-## 107         Morning Wood Wheat (Current)
-## 108                  Point Amber Classic
-## 109                     Schuylkill Punch
-## 110                        Washita Wheat
-## 111                     A Slice of Hefen
-##     Brew_ID Beer_ID   ABV IBU
-## 1       172    1350 0.056   4
-## 2       172      77 0.056   4
-## 3       172     753 0.056   4
-## 4       129    2370 0.044   5
-## 5       366    1604 0.050   5
-## 6       361     704 0.092   5
-## 7       385    1312 0.040   5
-## 8        67    2520 0.044   5
-## 9       125    2375 0.045   6
-## 10      411    1417 0.034   6
-## 11      172     523 0.069   6
-## 12      443     128 0.051   7
-## 13      132    1225 0.052   7
-## 14      132     816 0.050   7
-## 15      132     141 0.050   7
-## 16      132     772 0.050   7
-## 17       47    2266 0.032   7
-## 18      301    1144 0.053   7
-## 19      251    2018 0.065   8
-## 20      130    2232 0.041   8
-## 21      130    2233 0.041   8
-## 22      113    1897 0.050   8
-## 23      269     574 0.040   8
-## 24       66    2530 0.043   8
-## 25       73     534 0.045   8
-## 26       42    2584 0.046   8
-## 27      301    1830 0.045   8
-## 28      392    1522 0.042   9
-## 29      506     781 0.040   9
-## 30      161    1585 0.042   9
-## 31      223    1941 0.039   9
-## 32      132    2151 0.052   9
-## 33      132    2365 0.047   9
-## 34      132    2228 0.047   9
-## 35      132    2121 0.047   9
-## 36      132    2122 0.047   9
-## 37      132    2366 0.047   9
-## 38      132    2115 0.047   9
-## 39      132     138 0.047   9
-## 40      219    1397 0.048   9
-## 41      268    1927 0.049  10
-## 42      122    2379 0.057  10
-## 43      448    1241 0.050  10
-## 44      338    1147 0.048  10
-## 45      144    2345 0.037  10
-## 46       14    2633 0.055  10
-## 47      103    1666 0.057  10
-## 48      462    1172 0.052  10
-## 49      367     421 0.053  10
-## 50       72    2506 0.042  10
-## 51      160    2310 0.050  10
-## 52       67    2522 0.042  10
-## 53      278    1555 0.050  10
-## 54      235     610 0.048  10
-## 55      296     619 0.045  10
-## 56      104    2435 0.050  10
-## 57       38     108 0.056  10
-## 58      366     865 0.055  10
-## 59       47     630 0.052  11
-## 60       88    2459 0.048  11
-## 61      511      85 0.065  11
-## 62      511     760 0.065  11
-## 63      228    1263 0.053  11
-## 64       92    1816 0.047  11
-## 65      399    1477 0.050  11
-## 66       61    2545 0.035  11
-## 67      102    2438 0.046  11
-## 68      372      22 0.056  11
-## 69      394    1508 0.053  11
-## 70      150    2327 0.058  11
-## 71       40    2587 0.070  11
-## 72      109    2421 0.051  11
-## 73      338    1705 0.061  11
-## 74       73     527 0.050  12
-## 75      300     773 0.050  12
-## 76      216    2117 0.056  12
-## 77       18    2622 0.052  12
-## 78      497     872 0.043  12
-## 79      384     369 0.048  12
-## 80      492     647 0.074  12
-## 81       58    2021 0.050  12
-## 82      376     547 0.050  12
-## 83      219    2108 0.050  12
-## 84      188    2238 0.040  12
-## 85      224     587 0.048  12
-## 86       12    2635 0.041  12
-## 87       46    1009 0.044  12
-## 88       73    2502 0.055  12
-## 89      310    1150 0.046  12
-## 90      199    1354 0.048  13
-## 91      130    2231 0.032  13
-## 92      172    1520 0.057  13
-## 93      172    1221 0.057  13
-## 94      172     572 0.057  13
-## 95      304    1113 0.055  13
-## 96      166     478 0.051  13
-## 97      534     515 0.042  13
-## 98        2    2680 0.040  13
-## 99      132     650 0.049  13
-## 100     419     893 0.044  13
-## 101     362     398 0.042  13
-## 102      45     414 0.050  14
-## 103     198    2196 0.050  14
-## 104     477    1015 0.043  14
-## 105     327    1052 0.047  14
-## 106     136    2360 0.059  14
-## 107     136     130 0.059  14
-## 108     132     139 0.047  14
-## 109     357    1355 0.060  14
-## 110     367     420 0.053  14
-## 111     333    1741 0.054  15
-##                          Style Ounces City
-## 1                    Cream Ale     12 &lt;NA&gt;
-## 2                    Cream Ale     12 &lt;NA&gt;
-## 3                    Cream Ale     12 &lt;NA&gt;
-## 4                         Gose     12 &lt;NA&gt;
-## 5       Fruit / Vegetable Beer     12 &lt;NA&gt;
-## 6                       Tripel     12 &lt;NA&gt;
-## 7                         Gose     12 &lt;NA&gt;
-## 8           Berliner Weissbier     12 &lt;NA&gt;
-## 9      American Pale Wheat Ale     16 &lt;NA&gt;
-## 10          Berliner Weissbier     12 &lt;NA&gt;
-## 11               Winter Warmer     12 &lt;NA&gt;
-## 12      Fruit / Vegetable Beer     12 &lt;NA&gt;
-## 13     American Pale Wheat Ale     16 &lt;NA&gt;
-## 14     American Pale Wheat Ale     12 &lt;NA&gt;
-## 15     American Pale Wheat Ale     12 &lt;NA&gt;
-## 16     American Pale Wheat Ale     12 &lt;NA&gt;
-## 17      Fruit / Vegetable Beer     16 &lt;NA&gt;
-## 18     American Pale Wheat Ale     12 &lt;NA&gt;
-## 19      Fruit / Vegetable Beer     16 &lt;NA&gt;
-## 20  American Amber / Red Lager     12 &lt;NA&gt;
-## 21      American Adjunct Lager     12 &lt;NA&gt;
-## 22                  Hefeweizen     12 &lt;NA&gt;
-## 23      Fruit / Vegetable Beer     12 &lt;NA&gt;
-## 24          Berliner Weissbier     24 &lt;NA&gt;
-## 25         American Blonde Ale     12 &lt;NA&gt;
-## 26                        Gose     16 &lt;NA&gt;
-## 27                      Radler     12 &lt;NA&gt;
-## 28     American Pale Wheat Ale     12 &lt;NA&gt;
-## 29     American Dark Wheat Ale     12 &lt;NA&gt;
-## 30      Fruit / Vegetable Beer     12 &lt;NA&gt;
-## 31          Berliner Weissbier     16 &lt;NA&gt;
-## 32          American Black Ale     12 &lt;NA&gt;
-## 33      American Adjunct Lager     12 &lt;NA&gt;
-## 34      American Adjunct Lager     12 &lt;NA&gt;
-## 35      American Adjunct Lager     12 &lt;NA&gt;
-## 36      American Adjunct Lager     12 &lt;NA&gt;
-## 37      American Adjunct Lager     12 &lt;NA&gt;
-## 38      American Adjunct Lager     16 &lt;NA&gt;
-## 39      American Adjunct Lager     12 &lt;NA&gt;
-## 40            American Pilsner     12 &lt;NA&gt;
-## 41         American Blonde Ale     16 &lt;NA&gt;
-## 42      Fruit / Vegetable Beer     16 &lt;NA&gt;
-## 43                     Witbier     12 &lt;NA&gt;
-## 44                  Hefeweizen     12 &lt;NA&gt;
-## 45                 Light Lager     16 &lt;NA&gt;
-## 46          American Brown Ale     12 &lt;NA&gt;
-## 47                  Hefeweizen     12 &lt;NA&gt;
-## 48                        Gose     16 &lt;NA&gt;
-## 49         American Blonde Ale     12 &lt;NA&gt;
-## 50                        Gose     12 &lt;NA&gt;
-## 51                 Pumpkin Ale     12 &lt;NA&gt;
-## 52                     Witbier     12 &lt;NA&gt;
-## 53      Fruit / Vegetable Beer     12 &lt;NA&gt;
-## 54     American Pale Wheat Ale     12 &lt;NA&gt;
-## 55      Fruit / Vegetable Beer     12 &lt;NA&gt;
-## 56      Fruit / Vegetable Beer     12 &lt;NA&gt;
-## 57                     Witbier     12 &lt;NA&gt;
-## 58                     Witbier     16 &lt;NA&gt;
-## 59     American Pale Wheat Ale     16 &lt;NA&gt;
-## 60     American Pale Wheat Ale     16 &lt;NA&gt;
-## 61      Scotch Ale / Wee Heavy     16 &lt;NA&gt;
-## 62      Scotch Ale / Wee Heavy     16 &lt;NA&gt;
-## 63                  Hefeweizen     12 &lt;NA&gt;
-## 64                     KÃ¶lsch     12 &lt;NA&gt;
-## 65         American Blonde Ale     16 &lt;NA&gt;
-## 66          Berliner Weissbier     12 &lt;NA&gt;
-## 67                     KÃ¶lsch     12 &lt;NA&gt;
-## 68                  Hefeweizen     12 &lt;NA&gt;
-## 69      Fruit / Vegetable Beer     12 &lt;NA&gt;
-## 70                  Hefeweizen     12 &lt;NA&gt;
-## 71             American Porter     16 &lt;NA&gt;
-## 72      Fruit / Vegetable Beer     12 &lt;NA&gt;
-## 73                 Pumpkin Ale     12 &lt;NA&gt;
-## 74         Munich Helles Lager     12 &lt;NA&gt;
-## 75         American Blonde Ale     12 &lt;NA&gt;
-## 76                Dunkelweizen     12 &lt;NA&gt;
-## 77      Fruit / Vegetable Beer     16 &lt;NA&gt;
-## 78                  Hefeweizen     12 &lt;NA&gt;
-## 79       MÃ¤rzen / Oktoberfest     12 &lt;NA&gt;
-## 80      Scotch Ale / Wee Heavy     16 &lt;NA&gt;
-## 81                        Gose     12 &lt;NA&gt;
-## 82                     Witbier     12 &lt;NA&gt;
-## 83                   Cream Ale     12 &lt;NA&gt;
-## 84                 Light Lager     12 &lt;NA&gt;
-## 85                     Witbier     12 &lt;NA&gt;
-## 86         American Pale Lager     16 &lt;NA&gt;
-## 87          American Brown Ale     16 &lt;NA&gt;
-## 88             American Porter     16 &lt;NA&gt;
-## 89     American Pale Wheat Ale     12 &lt;NA&gt;
-## 90         American Pale Lager     12 &lt;NA&gt;
-## 91                 Light Lager     12 &lt;NA&gt;
-## 92               Oatmeal Stout     12 &lt;NA&gt;
-## 93               Oatmeal Stout     12 &lt;NA&gt;
-## 94               Oatmeal Stout     12 &lt;NA&gt;
-## 95                  Hefeweizen     12 &lt;NA&gt;
-## 96                     Witbier     16 &lt;NA&gt;
-## 97      Fruit / Vegetable Beer     12 &lt;NA&gt;
-## 98            Belgian Pale Ale     16 &lt;NA&gt;
-## 99                     KÃ¶lsch     12 &lt;NA&gt;
-## 100    American Pale Wheat Ale     16 &lt;NA&gt;
-## 101                    Witbier     12 &lt;NA&gt;
-## 102                    Witbier     12 &lt;NA&gt;
-## 103        American Pale Lager     12 &lt;NA&gt;
-## 104        Munich Helles Lager     12 &lt;NA&gt;
-## 105    American Pale Wheat Ale     12 &lt;NA&gt;
-## 106    American Pale Wheat Ale     12 &lt;NA&gt;
-## 107    American Pale Wheat Ale     12 &lt;NA&gt;
-## 108 American Amber / Red Lager     12 &lt;NA&gt;
-## 109     Fruit / Vegetable Beer     12 &lt;NA&gt;
-## 110    American Pale Wheat Ale     12 &lt;NA&gt;
-## 111                 Hefeweizen     16 &lt;NA&gt;
-##     State
-## 1    &lt;NA&gt;
-## 2    &lt;NA&gt;
-## 3    &lt;NA&gt;
-## 4    &lt;NA&gt;
-## 5    &lt;NA&gt;
-## 6    &lt;NA&gt;
-## 7    &lt;NA&gt;
-## 8    &lt;NA&gt;
-## 9    &lt;NA&gt;
-## 10   &lt;NA&gt;
-## 11   &lt;NA&gt;
-## 12   &lt;NA&gt;
-## 13   &lt;NA&gt;
-## 14   &lt;NA&gt;
-## 15   &lt;NA&gt;
-## 16   &lt;NA&gt;
-## 17   &lt;NA&gt;
-## 18   &lt;NA&gt;
-## 19   &lt;NA&gt;
-## 20   &lt;NA&gt;
-## 21   &lt;NA&gt;
-## 22   &lt;NA&gt;
-## 23   &lt;NA&gt;
-## 24   &lt;NA&gt;
-## 25   &lt;NA&gt;
-## 26   &lt;NA&gt;
-## 27   &lt;NA&gt;
-## 28   &lt;NA&gt;
-## 29   &lt;NA&gt;
-## 30   &lt;NA&gt;
-## 31   &lt;NA&gt;
-## 32   &lt;NA&gt;
-## 33   &lt;NA&gt;
-## 34   &lt;NA&gt;
-## 35   &lt;NA&gt;
-## 36   &lt;NA&gt;
-## 37   &lt;NA&gt;
-## 38   &lt;NA&gt;
-## 39   &lt;NA&gt;
-## 40   &lt;NA&gt;
-## 41   &lt;NA&gt;
-## 42   &lt;NA&gt;
-## 43   &lt;NA&gt;
-## 44   &lt;NA&gt;
-## 45   &lt;NA&gt;
-## 46   &lt;NA&gt;
-## 47   &lt;NA&gt;
-## 48   &lt;NA&gt;
-## 49   &lt;NA&gt;
-## 50   &lt;NA&gt;
-## 51   &lt;NA&gt;
-## 52   &lt;NA&gt;
-## 53   &lt;NA&gt;
-## 54   &lt;NA&gt;
-## 55   &lt;NA&gt;
-## 56   &lt;NA&gt;
-## 57   &lt;NA&gt;
-## 58   &lt;NA&gt;
-## 59   &lt;NA&gt;
-## 60   &lt;NA&gt;
-## 61   &lt;NA&gt;
-## 62   &lt;NA&gt;
-## 63   &lt;NA&gt;
-## 64   &lt;NA&gt;
-## 65   &lt;NA&gt;
-## 66   &lt;NA&gt;
-## 67   &lt;NA&gt;
-## 68   &lt;NA&gt;
-## 69   &lt;NA&gt;
-## 70   &lt;NA&gt;
-## 71   &lt;NA&gt;
-## 72   &lt;NA&gt;
-## 73   &lt;NA&gt;
-## 74   &lt;NA&gt;
-## 75   &lt;NA&gt;
-## 76   &lt;NA&gt;
-## 77   &lt;NA&gt;
-## 78   &lt;NA&gt;
-## 79   &lt;NA&gt;
-## 80   &lt;NA&gt;
-## 81   &lt;NA&gt;
-## 82   &lt;NA&gt;
-## 83   &lt;NA&gt;
-## 84   &lt;NA&gt;
-## 85   &lt;NA&gt;
-## 86   &lt;NA&gt;
-## 87   &lt;NA&gt;
-## 88   &lt;NA&gt;
-## 89   &lt;NA&gt;
-## 90   &lt;NA&gt;
-## 91   &lt;NA&gt;
-## 92   &lt;NA&gt;
-## 93   &lt;NA&gt;
-## 94   &lt;NA&gt;
-## 95   &lt;NA&gt;
-## 96   &lt;NA&gt;
-## 97   &lt;NA&gt;
-## 98   &lt;NA&gt;
-## 99   &lt;NA&gt;
-## 100  &lt;NA&gt;
-## 101  &lt;NA&gt;
-## 102  &lt;NA&gt;
-## 103  &lt;NA&gt;
-## 104  &lt;NA&gt;
-## 105  &lt;NA&gt;
-## 106  &lt;NA&gt;
-## 107  &lt;NA&gt;
-## 108  &lt;NA&gt;
-## 109  &lt;NA&gt;
-## 110  &lt;NA&gt;
-## 111  &lt;NA&gt;
+<pre><code>##                                     Name Brew_ID Beer_ID   ABV IBU                      Style Ounces
+## 1                        Summer Solstice     172    1350 0.056   4                  Cream Ale     12
+## 2                 Summer Solstice (2011)     172      77 0.056   4                  Cream Ale     12
+## 3   Summer Solstice Cerveza Crema (2009)     172     753 0.056   4                  Cream Ale     12
+## 4                  18th Anniversary Gose     129    2370 0.044   5                       Gose     12
+## 5                    Chickawawa Lemonale     366    1604 0.050   5     Fruit / Vegetable Beer     12
+## 6          Devils Tramping Ground Tripel     361     704 0.092   5                     Tripel     12
+## 7                         Westbrook Gose     385    1312 0.040   5                       Gose     12
+## 8                     Yo Soy Un Berliner      67    2520 0.044   5         Berliner Weissbier     12
+## 9                           Mr. Blue Sky     125    2375 0.045   6    American Pale Wheat Ale     16
+## 10                   Weiss Trash Culture     411    1417 0.034   6         Berliner Weissbier     12
+## 11                       Winter Solstice     172     523 0.069   6              Winter Warmer     12
+## 12                       O&#39;Fallon Wheach     443     128 0.051   7     Fruit / Vegetable Beer     12
+## 13         Point Nude Beach Summer Wheat     132    1225 0.052   7    American Pale Wheat Ale     16
+## 14         Point Nude Beach Summer Wheat     132     816 0.050   7    American Pale Wheat Ale     12
+## 15  Point Nude Beach Summer Wheat (2010)     132     141 0.050   7    American Pale Wheat Ale     12
+## 16  Point Nude Beach Summer Wheat (2011)     132     772 0.050   7    American Pale Wheat Ale     12
+## 17                                   Rad      47    2266 0.032   7     Fruit / Vegetable Beer     16
+## 18               Samuel Adams Summer Ale     301    1144 0.053   7    American Pale Wheat Ale     12
+## 19                             Ale Cider     251    2018 0.065   8     Fruit / Vegetable Beer     16
+## 20                        American Amber     130    2232 0.041   8 American Amber / Red Lager     12
+## 21                        American Lager     130    2233 0.041   8     American Adjunct Lager     12
+## 22               Black Market Hefeweizen     113    1897 0.050   8                 Hefeweizen     12
+## 23                      Blackbeary Wheat     269     574 0.040   8     Fruit / Vegetable Beer     12
+## 24                             Daft Funk      66    2530 0.043   8         Berliner Weissbier     24
+## 25                      Dirty Blonde Ale      73     534 0.045   8        American Blonde Ale     12
+## 26                                  Gose      42    2584 0.046   8                       Gose     16
+## 27                          Porch Rocker     301    1830 0.045   8                     Radler     12
+## 28                           Agave Wheat     392    1522 0.042   9    American Pale Wheat Ale     12
+## 29                      Choc Beer (2003)     506     781 0.040   9    American Dark Wheat Ale     12
+## 30                  Four Peaks Peach Ale     161    1585 0.042   9     Fruit / Vegetable Beer     12
+## 31              Monkey Chased the Weasel     223    1941 0.039   9         Berliner Weissbier     16
+## 32                        Onyx Black Ale     132    2151 0.052   9         American Black Ale     12
+## 33                         Point Special     132    2365 0.047   9     American Adjunct Lager     12
+## 34                         Point Special     132    2228 0.047   9     American Adjunct Lager     12
+## 35                  Point Special (2012)     132    2121 0.047   9     American Adjunct Lager     12
+## 36                  Point Special (2013)     132    2122 0.047   9     American Adjunct Lager     12
+## 37               Point Special (Current)     132    2366 0.047   9     American Adjunct Lager     12
+## 38                   Point Special Lager     132    2115 0.047   9     American Adjunct Lager     16
+## 39                   Point Special Lager     132     138 0.047   9     American Adjunct Lager     12
+## 40                         Two-One Niner     219    1397 0.048   9           American Pilsner     12
+## 41                          Beach Blonde     268    1927 0.049  10        American Blonde Ale     16
+## 42                    Blood Orange Honey     122    2379 0.057  10     Fruit / Vegetable Beer     16
+## 43                          Cotton Mouth     448    1241 0.050  10                    Witbier     12
+## 44                        EOS Hefeweizen     338    1147 0.048  10                 Hefeweizen     12
+## 45                         Gansett Light     144    2345 0.037  10                Light Lager     16
+## 46                          Hotbox Brown      14    2633 0.055  10         American Brown Ale     12
+## 47                King Street Hefeweizen     103    1666 0.057  10                 Hefeweizen     12
+## 48                             Mo&#39;s Gose     462    1172 0.052  10                       Gose     16
+## 49                    Mustang Golden Ale     367     421 0.053  10        American Blonde Ale     12
+## 50                               Old Pro      72    2506 0.042  10                       Gose     12
+## 51                                PUNK&#39;N     160    2310 0.050  10                Pumpkin Ale     12
+## 52                               Rye Wit      67    2522 0.042  10                    Witbier     12
+## 53                 Sweet Yamma Jamma Ale     278    1555 0.050  10     Fruit / Vegetable Beer     12
+## 54                             UFO White     235     610 0.048  10    American Pale Wheat Ale     12
+## 55               Wachusett Blueberry Ale     296     619 0.045  10     Fruit / Vegetable Beer     12
+## 56                        Watermelon Ale     104    2435 0.050  10     Fruit / Vegetable Beer     12
+## 57                          White Rascal      38     108 0.056  10                    Witbier     12
+## 58                        Widespread Wit     366     865 0.055  10                    Witbier     16
+## 59                                Apollo      47     630 0.052  11    American Pale Wheat Ale     16
+## 60                      Blackberry Wheat      88    2459 0.048  11    American Pale Wheat Ale     16
+## 61                 Cold Smoke Scotch Ale     511      85 0.065  11     Scotch Ale / Wee Heavy     16
+## 62          Cold Smoke Scotch Ale (2007)     511     760 0.065  11     Scotch Ale / Wee Heavy     16
+## 63                        El Hefe Speaks     228    1263 0.053  11                 Hefeweizen     12
+## 64                                  LIFT      92    1816 0.047  11                    KÃ¶lsch     12
+## 65                 Oval Beach Blonde Ale     399    1477 0.050  11        American Blonde Ale     16
+## 66                 Passion Fruit Prussia      61    2545 0.035  11         Berliner Weissbier     12
+## 67                Rhode Island Blueberry     102    2438 0.046  11                    KÃ¶lsch     12
+## 68                      Royal Weisse Ale     372      22 0.056  11                 Hefeweizen     12
+## 69                            Shark Bait     394    1508 0.053  11     Fruit / Vegetable Beer     12
+## 70                         Shotgun Betty     150    2327 0.058  11                 Hefeweizen     12
+## 71                        Vanilla Porter      40    2587 0.070  11            American Porter     16
+## 72                        Watermelon Ale     109    2421 0.051  11     Fruit / Vegetable Beer     12
+## 73                       Wick For Brains     338    1705 0.061  11                Pumpkin Ale     12
+## 74                       Atwater&#39;s Lager      73     527 0.050  12        Munich Helles Lager     12
+## 75                  Blueberry Blonde Ale     300     773 0.050  12        American Blonde Ale     12
+## 76                         Broken Bridge     216    2117 0.056  12               Dunkelweizen     12
+## 77                Damascene Apricot Sour      18    2622 0.052  12     Fruit / Vegetable Beer     16
+## 78                   Dry Dock Hefeweizen     497     872 0.043  12                 Hefeweizen     12
+## 79                                Festie     384     369 0.048  12      MÃ¤rzen / Oktoberfest     12
+## 80                  Full Boar Scotch Ale     492     647 0.074  12     Scotch Ale / Wee Heavy     16
+## 81                     Here Gose Nothin&#39;      58    2021 0.050  12                       Gose     12
+## 82                      La Perouse White     376     547 0.050  12                    Witbier     12
+## 83                Laughing Dog Cream Ale     219    2108 0.050  12                  Cream Ale     12
+## 84                             Lobo Lito     188    2238 0.040  12                Light Lager     12
+## 85                    Snowshoe White Ale     224     587 0.048  12                    Witbier     12
+## 86                               Sparkle      12    2635 0.041  12        American Pale Lager     16
+## 87                     Tallgrass Pub Ale      46    1009 0.044  12         American Brown Ale     16
+## 88                   Vanilla Java Porter      73    2502 0.055  12            American Porter     16
+## 89                     Woolybugger Wheat     310    1150 0.046  12    American Pale Wheat Ale     12
+## 90                    541 American Lager     199    1354 0.048  13        American Pale Lager     12
+## 91                        American Light     130    2231 0.032  13                Light Lager     12
+## 92            Barney Flats Oatmeal Stout     172    1520 0.057  13              Oatmeal Stout     12
+## 93            Barney Flats Oatmeal Stout     172    1221 0.057  13              Oatmeal Stout     12
+## 94     Barney Flats Oatmeal Stout (2012)     172     572 0.057  13              Oatmeal Stout     12
+## 95                           Elder Betty     304    1113 0.055  13                 Hefeweizen     12
+## 96      Great Crescent Belgian Style Wit     166     478 0.051  13                    Witbier     16
+## 97                           Purple Haze     534     515 0.042  13     Fruit / Vegetable Beer     12
+## 98                              Sho&#39;nuff       2    2680 0.040  13           Belgian Pale Ale     16
+## 99                       Three Kings Ale     132     650 0.049  13                    KÃ¶lsch     12
+## 100                     Wheat the People     419     893 0.044  13    American Pale Wheat Ale     16
+## 101                Wild Onion Summer Wit     362     398 0.042  13                    Witbier     12
+## 102                Bottom Up Belgian Wit      45     414 0.050  14                    Witbier     12
+## 103                   Couch Select Lager     198    2196 0.050  14        American Pale Lager     12
+## 104               Hangar 24 Helles Lager     477    1015 0.043  14        Munich Helles Lager     12
+## 105                          Honey Wheat     327    1052 0.047  14    American Pale Wheat Ale     12
+## 106         Morning Wood Wheat (Current)     136    2360 0.059  14    American Pale Wheat Ale     12
+## 107         Morning Wood Wheat (Current)     136     130 0.059  14    American Pale Wheat Ale     12
+## 108                  Point Amber Classic     132     139 0.047  14 American Amber / Red Lager     12
+## 109                     Schuylkill Punch     357    1355 0.060  14     Fruit / Vegetable Beer     12
+## 110                        Washita Wheat     367     420 0.053  14    American Pale Wheat Ale     12
+## 111                     A Slice of Hefen     333    1741 0.054  15                 Hefeweizen     16
+##     City State
+## 1   &lt;NA&gt;  &lt;NA&gt;
+## 2   &lt;NA&gt;  &lt;NA&gt;
+## 3   &lt;NA&gt;  &lt;NA&gt;
+## 4   &lt;NA&gt;  &lt;NA&gt;
+## 5   &lt;NA&gt;  &lt;NA&gt;
+## 6   &lt;NA&gt;  &lt;NA&gt;
+## 7   &lt;NA&gt;  &lt;NA&gt;
+## 8   &lt;NA&gt;  &lt;NA&gt;
+## 9   &lt;NA&gt;  &lt;NA&gt;
+## 10  &lt;NA&gt;  &lt;NA&gt;
+## 11  &lt;NA&gt;  &lt;NA&gt;
+## 12  &lt;NA&gt;  &lt;NA&gt;
+## 13  &lt;NA&gt;  &lt;NA&gt;
+## 14  &lt;NA&gt;  &lt;NA&gt;
+## 15  &lt;NA&gt;  &lt;NA&gt;
+## 16  &lt;NA&gt;  &lt;NA&gt;
+## 17  &lt;NA&gt;  &lt;NA&gt;
+## 18  &lt;NA&gt;  &lt;NA&gt;
+## 19  &lt;NA&gt;  &lt;NA&gt;
+## 20  &lt;NA&gt;  &lt;NA&gt;
+## 21  &lt;NA&gt;  &lt;NA&gt;
+## 22  &lt;NA&gt;  &lt;NA&gt;
+## 23  &lt;NA&gt;  &lt;NA&gt;
+## 24  &lt;NA&gt;  &lt;NA&gt;
+## 25  &lt;NA&gt;  &lt;NA&gt;
+## 26  &lt;NA&gt;  &lt;NA&gt;
+## 27  &lt;NA&gt;  &lt;NA&gt;
+## 28  &lt;NA&gt;  &lt;NA&gt;
+## 29  &lt;NA&gt;  &lt;NA&gt;
+## 30  &lt;NA&gt;  &lt;NA&gt;
+## 31  &lt;NA&gt;  &lt;NA&gt;
+## 32  &lt;NA&gt;  &lt;NA&gt;
+## 33  &lt;NA&gt;  &lt;NA&gt;
+## 34  &lt;NA&gt;  &lt;NA&gt;
+## 35  &lt;NA&gt;  &lt;NA&gt;
+## 36  &lt;NA&gt;  &lt;NA&gt;
+## 37  &lt;NA&gt;  &lt;NA&gt;
+## 38  &lt;NA&gt;  &lt;NA&gt;
+## 39  &lt;NA&gt;  &lt;NA&gt;
+## 40  &lt;NA&gt;  &lt;NA&gt;
+## 41  &lt;NA&gt;  &lt;NA&gt;
+## 42  &lt;NA&gt;  &lt;NA&gt;
+## 43  &lt;NA&gt;  &lt;NA&gt;
+## 44  &lt;NA&gt;  &lt;NA&gt;
+## 45  &lt;NA&gt;  &lt;NA&gt;
+## 46  &lt;NA&gt;  &lt;NA&gt;
+## 47  &lt;NA&gt;  &lt;NA&gt;
+## 48  &lt;NA&gt;  &lt;NA&gt;
+## 49  &lt;NA&gt;  &lt;NA&gt;
+## 50  &lt;NA&gt;  &lt;NA&gt;
+## 51  &lt;NA&gt;  &lt;NA&gt;
+## 52  &lt;NA&gt;  &lt;NA&gt;
+## 53  &lt;NA&gt;  &lt;NA&gt;
+## 54  &lt;NA&gt;  &lt;NA&gt;
+## 55  &lt;NA&gt;  &lt;NA&gt;
+## 56  &lt;NA&gt;  &lt;NA&gt;
+## 57  &lt;NA&gt;  &lt;NA&gt;
+## 58  &lt;NA&gt;  &lt;NA&gt;
+## 59  &lt;NA&gt;  &lt;NA&gt;
+## 60  &lt;NA&gt;  &lt;NA&gt;
+## 61  &lt;NA&gt;  &lt;NA&gt;
+## 62  &lt;NA&gt;  &lt;NA&gt;
+## 63  &lt;NA&gt;  &lt;NA&gt;
+## 64  &lt;NA&gt;  &lt;NA&gt;
+## 65  &lt;NA&gt;  &lt;NA&gt;
+## 66  &lt;NA&gt;  &lt;NA&gt;
+## 67  &lt;NA&gt;  &lt;NA&gt;
+## 68  &lt;NA&gt;  &lt;NA&gt;
+## 69  &lt;NA&gt;  &lt;NA&gt;
+## 70  &lt;NA&gt;  &lt;NA&gt;
+## 71  &lt;NA&gt;  &lt;NA&gt;
+## 72  &lt;NA&gt;  &lt;NA&gt;
+## 73  &lt;NA&gt;  &lt;NA&gt;
+## 74  &lt;NA&gt;  &lt;NA&gt;
+## 75  &lt;NA&gt;  &lt;NA&gt;
+## 76  &lt;NA&gt;  &lt;NA&gt;
+## 77  &lt;NA&gt;  &lt;NA&gt;
+## 78  &lt;NA&gt;  &lt;NA&gt;
+## 79  &lt;NA&gt;  &lt;NA&gt;
+## 80  &lt;NA&gt;  &lt;NA&gt;
+## 81  &lt;NA&gt;  &lt;NA&gt;
+## 82  &lt;NA&gt;  &lt;NA&gt;
+## 83  &lt;NA&gt;  &lt;NA&gt;
+## 84  &lt;NA&gt;  &lt;NA&gt;
+## 85  &lt;NA&gt;  &lt;NA&gt;
+## 86  &lt;NA&gt;  &lt;NA&gt;
+## 87  &lt;NA&gt;  &lt;NA&gt;
+## 88  &lt;NA&gt;  &lt;NA&gt;
+## 89  &lt;NA&gt;  &lt;NA&gt;
+## 90  &lt;NA&gt;  &lt;NA&gt;
+## 91  &lt;NA&gt;  &lt;NA&gt;
+## 92  &lt;NA&gt;  &lt;NA&gt;
+## 93  &lt;NA&gt;  &lt;NA&gt;
+## 94  &lt;NA&gt;  &lt;NA&gt;
+## 95  &lt;NA&gt;  &lt;NA&gt;
+## 96  &lt;NA&gt;  &lt;NA&gt;
+## 97  &lt;NA&gt;  &lt;NA&gt;
+## 98  &lt;NA&gt;  &lt;NA&gt;
+## 99  &lt;NA&gt;  &lt;NA&gt;
+## 100 &lt;NA&gt;  &lt;NA&gt;
+## 101 &lt;NA&gt;  &lt;NA&gt;
+## 102 &lt;NA&gt;  &lt;NA&gt;
+## 103 &lt;NA&gt;  &lt;NA&gt;
+## 104 &lt;NA&gt;  &lt;NA&gt;
+## 105 &lt;NA&gt;  &lt;NA&gt;
+## 106 &lt;NA&gt;  &lt;NA&gt;
+## 107 &lt;NA&gt;  &lt;NA&gt;
+## 108 &lt;NA&gt;  &lt;NA&gt;
+## 109 &lt;NA&gt;  &lt;NA&gt;
+## 110 &lt;NA&gt;  &lt;NA&gt;
+## 111 &lt;NA&gt;  &lt;NA&gt;
 ##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 2857 rows ]</code></pre>
 <p>Question 6 Comment on the summary statistics and distribution of the ABV variable.</p>
 <p>The summary function prints a list of useful data points in a very brief fashion for gathering relevant facts about vectors in # this case. Using summary I am able to confirm that 128 is th max ABV.</p>
 <pre class="r"><code>summary(beermerge$ABV)</code></pre>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##  0.0010  0.0500  0.0560  0.0598  0.0670  0.1280 
-##    NA&#39;s 
-##     620</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##  0.0010  0.0500  0.0560  0.0598  0.0670  0.1280     620</code></pre>
 <pre class="r"><code>#  Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
 # 0.0010  0.0500  0.0560  0.0598  0.0670  0.1280     620 
 summary(statey2$ABV)</code></pre>
@@ -1523,7 +1043,7 @@ accuplot &lt;- ggplotly(accuplot)
 
 accuplot</code></pre>
 <div id="htmlwidget-b06988bc478680ad369e" style="width:672px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b06988bc478680ad369e">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100],"y":[0.830388692579505,0.812720848056537,0.840989399293286,0.855123674911661,0.858657243816254,0.855123674911661,0.848056537102474,0.84452296819788,0.851590106007067,0.855123674911661,0.851590106007067,0.851590106007067,0.848056537102474,0.848056537102474,0.840989399293286,0.840989399293286,0.840989399293286,0.837455830388693,0.851590106007067,0.84452296819788,0.837455830388693,0.840989399293286,0.840989399293286,0.848056537102474,0.848056537102474,0.84452296819788,0.84452296819788,0.848056537102474,0.84452296819788,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.837455830388693,0.840989399293286,0.84452296819788,0.84452296819788,0.837455830388693,0.837455830388693,0.840989399293286,0.840989399293286,0.840989399293286,0.840989399293286,0.840989399293286,0.840989399293286,0.840989399293286,0.840989399293286,0.840989399293286,0.840989399293286,0.840989399293286,0.840989399293286],"text":["k:   1<br />accuracy: 0.8303887","k:   2<br />accuracy: 0.8127208","k:   3<br />accuracy: 0.8409894","k:   4<br />accuracy: 0.8551237","k:   5<br />accuracy: 0.8586572","k:   6<br />accuracy: 0.8551237","k:   7<br />accuracy: 0.8480565","k:   8<br />accuracy: 0.8445230","k:   9<br />accuracy: 0.8515901","k:  10<br />accuracy: 0.8551237","k:  11<br />accuracy: 0.8515901","k:  12<br />accuracy: 0.8515901","k:  13<br />accuracy: 0.8480565","k:  14<br />accuracy: 0.8480565","k:  15<br />accuracy: 0.8409894","k:  16<br />accuracy: 0.8409894","k:  17<br />accuracy: 0.8409894","k:  18<br />accuracy: 0.8374558","k:  19<br />accuracy: 0.8515901","k:  20<br />accuracy: 0.8445230","k:  21<br />accuracy: 0.8374558","k:  22<br />accuracy: 0.8409894","k:  23<br />accuracy: 0.8409894","k:  24<br />accuracy: 0.8480565","k:  25<br />accuracy: 0.8480565","k:  26<br />accuracy: 0.8445230","k:  27<br />accuracy: 0.8445230","k:  28<br />accuracy: 0.8480565","k:  29<br />accuracy: 0.8445230","k:  30<br />accuracy: 0.8480565","k:  31<br />accuracy: 0.8480565","k:  32<br />accuracy: 0.8480565","k:  33<br />accuracy: 0.8480565","k:  34<br />accuracy: 0.8480565","k:  35<br />accuracy: 0.8480565","k:  36<br />accuracy: 0.8480565","k:  37<br />accuracy: 0.8480565","k:  38<br />accuracy: 0.8480565","k:  39<br />accuracy: 0.8480565","k:  40<br />accuracy: 0.8480565","k:  41<br />accuracy: 0.8480565","k:  42<br />accuracy: 0.8480565","k:  43<br />accuracy: 0.8480565","k:  44<br />accuracy: 0.8480565","k:  45<br />accuracy: 0.8480565","k:  46<br />accuracy: 0.8480565","k:  47<br />accuracy: 0.8480565","k:  48<br />accuracy: 0.8480565","k:  49<br />accuracy: 0.8480565","k:  50<br />accuracy: 0.8480565","k:  51<br />accuracy: 0.8480565","k:  52<br />accuracy: 0.8480565","k:  53<br />accuracy: 0.8480565","k:  54<br />accuracy: 0.8480565","k:  55<br />accuracy: 0.8480565","k:  56<br />accuracy: 0.8480565","k:  57<br />accuracy: 0.8480565","k:  58<br />accuracy: 0.8480565","k:  59<br />accuracy: 0.8480565","k:  60<br />accuracy: 0.8480565","k:  61<br />accuracy: 0.8480565","k:  62<br />accuracy: 0.8480565","k:  63<br />accuracy: 0.8480565","k:  64<br />accuracy: 0.8480565","k:  65<br />accuracy: 0.8480565","k:  66<br />accuracy: 0.8480565","k:  67<br />accuracy: 0.8480565","k:  68<br />accuracy: 0.8480565","k:  69<br />accuracy: 0.8480565","k:  70<br />accuracy: 0.8480565","k:  71<br />accuracy: 0.8480565","k:  72<br />accuracy: 0.8480565","k:  73<br />accuracy: 0.8480565","k:  74<br />accuracy: 0.8480565","k:  75<br />accuracy: 0.8480565","k:  76<br />accuracy: 0.8480565","k:  77<br />accuracy: 0.8480565","k:  78<br />accuracy: 0.8480565","k:  79<br />accuracy: 0.8480565","k:  80<br />accuracy: 0.8480565","k:  81<br />accuracy: 0.8480565","k:  82<br />accuracy: 0.8480565","k:  83<br />accuracy: 0.8374558","k:  84<br />accuracy: 0.8409894","k:  85<br />accuracy: 0.8445230","k:  86<br />accuracy: 0.8445230","k:  87<br />accuracy: 0.8374558","k:  88<br />accuracy: 0.8374558","k:  89<br />accuracy: 0.8409894","k:  90<br />accuracy: 0.8409894","k:  91<br />accuracy: 0.8409894","k:  92<br />accuracy: 0.8409894","k:  93<br />accuracy: 0.8409894","k:  94<br />accuracy: 0.8409894","k:  95<br />accuracy: 0.8409894","k:  96<br />accuracy: 0.8409894","k:  97<br />accuracy: 0.8409894","k:  98<br />accuracy: 0.8409894","k:  99<br />accuracy: 0.8409894","k: 100<br />accuracy: 0.8409894"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.2283105022831,"r":7.30593607305936,"b":40.1826484018265,"l":48.9497716894977},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-3.95,104.95],"tickmode":"array","ticktext":["0","25","50","75","100"],"tickvals":[-4.44089209850063e-016,25,50,75,100],"categoryorder":"array","categoryarray":["0","25","50","75","100"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Tally","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.810424028268551,0.86095406360424],"tickmode":"array","ticktext":["0.82","0.83","0.84","0.85","0.86"],"tickvals":[0.82,0.83,0.84,0.85,0.86],"categoryorder":"array","categoryarray":["0.82","0.83","0.84","0.85","0.86"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"Accuracy","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"1d60368f923":{"x":{},"y":{},"type":"scatter"}},"cur_data":"1d60368f923","visdat":{"1d60368f923":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-b06988bc478680ad369e">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100],"y":[0.830388692579505,0.812720848056537,0.840989399293286,0.855123674911661,0.858657243816254,0.855123674911661,0.848056537102474,0.84452296819788,0.851590106007067,0.855123674911661,0.851590106007067,0.851590106007067,0.848056537102474,0.848056537102474,0.840989399293286,0.840989399293286,0.840989399293286,0.837455830388693,0.851590106007067,0.84452296819788,0.837455830388693,0.840989399293286,0.840989399293286,0.848056537102474,0.848056537102474,0.84452296819788,0.84452296819788,0.848056537102474,0.84452296819788,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.848056537102474,0.837455830388693,0.840989399293286,0.84452296819788,0.84452296819788,0.837455830388693,0.837455830388693,0.840989399293286,0.840989399293286,0.840989399293286,0.840989399293286,0.840989399293286,0.840989399293286,0.840989399293286,0.840989399293286,0.840989399293286,0.840989399293286,0.840989399293286,0.840989399293286],"text":["k:   1<br />accuracy: 0.8303887","k:   2<br />accuracy: 0.8127208","k:   3<br />accuracy: 0.8409894","k:   4<br />accuracy: 0.8551237","k:   5<br />accuracy: 0.8586572","k:   6<br />accuracy: 0.8551237","k:   7<br />accuracy: 0.8480565","k:   8<br />accuracy: 0.8445230","k:   9<br />accuracy: 0.8515901","k:  10<br />accuracy: 0.8551237","k:  11<br />accuracy: 0.8515901","k:  12<br />accuracy: 0.8515901","k:  13<br />accuracy: 0.8480565","k:  14<br />accuracy: 0.8480565","k:  15<br />accuracy: 0.8409894","k:  16<br />accuracy: 0.8409894","k:  17<br />accuracy: 0.8409894","k:  18<br />accuracy: 0.8374558","k:  19<br />accuracy: 0.8515901","k:  20<br />accuracy: 0.8445230","k:  21<br />accuracy: 0.8374558","k:  22<br />accuracy: 0.8409894","k:  23<br />accuracy: 0.8409894","k:  24<br />accuracy: 0.8480565","k:  25<br />accuracy: 0.8480565","k:  26<br />accuracy: 0.8445230","k:  27<br />accuracy: 0.8445230","k:  28<br />accuracy: 0.8480565","k:  29<br />accuracy: 0.8445230","k:  30<br />accuracy: 0.8480565","k:  31<br />accuracy: 0.8480565","k:  32<br />accuracy: 0.8480565","k:  33<br />accuracy: 0.8480565","k:  34<br />accuracy: 0.8480565","k:  35<br />accuracy: 0.8480565","k:  36<br />accuracy: 0.8480565","k:  37<br />accuracy: 0.8480565","k:  38<br />accuracy: 0.8480565","k:  39<br />accuracy: 0.8480565","k:  40<br />accuracy: 0.8480565","k:  41<br />accuracy: 0.8480565","k:  42<br />accuracy: 0.8480565","k:  43<br />accuracy: 0.8480565","k:  44<br />accuracy: 0.8480565","k:  45<br />accuracy: 0.8480565","k:  46<br />accuracy: 0.8480565","k:  47<br />accuracy: 0.8480565","k:  48<br />accuracy: 0.8480565","k:  49<br />accuracy: 0.8480565","k:  50<br />accuracy: 0.8480565","k:  51<br />accuracy: 0.8480565","k:  52<br />accuracy: 0.8480565","k:  53<br />accuracy: 0.8480565","k:  54<br />accuracy: 0.8480565","k:  55<br />accuracy: 0.8480565","k:  56<br />accuracy: 0.8480565","k:  57<br />accuracy: 0.8480565","k:  58<br />accuracy: 0.8480565","k:  59<br />accuracy: 0.8480565","k:  60<br />accuracy: 0.8480565","k:  61<br />accuracy: 0.8480565","k:  62<br />accuracy: 0.8480565","k:  63<br />accuracy: 0.8480565","k:  64<br />accuracy: 0.8480565","k:  65<br />accuracy: 0.8480565","k:  66<br />accuracy: 0.8480565","k:  67<br />accuracy: 0.8480565","k:  68<br />accuracy: 0.8480565","k:  69<br />accuracy: 0.8480565","k:  70<br />accuracy: 0.8480565","k:  71<br />accuracy: 0.8480565","k:  72<br />accuracy: 0.8480565","k:  73<br />accuracy: 0.8480565","k:  74<br />accuracy: 0.8480565","k:  75<br />accuracy: 0.8480565","k:  76<br />accuracy: 0.8480565","k:  77<br />accuracy: 0.8480565","k:  78<br />accuracy: 0.8480565","k:  79<br />accuracy: 0.8480565","k:  80<br />accuracy: 0.8480565","k:  81<br />accuracy: 0.8480565","k:  82<br />accuracy: 0.8480565","k:  83<br />accuracy: 0.8374558","k:  84<br />accuracy: 0.8409894","k:  85<br />accuracy: 0.8445230","k:  86<br />accuracy: 0.8445230","k:  87<br />accuracy: 0.8374558","k:  88<br />accuracy: 0.8374558","k:  89<br />accuracy: 0.8409894","k:  90<br />accuracy: 0.8409894","k:  91<br />accuracy: 0.8409894","k:  92<br />accuracy: 0.8409894","k:  93<br />accuracy: 0.8409894","k:  94<br />accuracy: 0.8409894","k:  95<br />accuracy: 0.8409894","k:  96<br />accuracy: 0.8409894","k:  97<br />accuracy: 0.8409894","k:  98<br />accuracy: 0.8409894","k:  99<br />accuracy: 0.8409894","k: 100<br />accuracy: 0.8409894"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.2283105022831,"r":7.30593607305936,"b":40.1826484018265,"l":48.9497716894977},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-3.95,104.95],"tickmode":"array","ticktext":["0","25","50","75","100"],"tickvals":[-4.44089209850063e-016,25,50,75,100],"categoryorder":"array","categoryarray":["0","25","50","75","100"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Tally","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.810424028268551,0.86095406360424],"tickmode":"array","ticktext":["0.82","0.83","0.84","0.85","0.86"],"tickvals":[0.82,0.83,0.84,0.85,0.86],"categoryorder":"array","categoryarray":["0.82","0.83","0.84","0.85","0.86"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"Accuracy","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"6ac285a5d96":{"x":{},"y":{},"type":"scatter"}},"cur_data":"6ac285a5d96","visdat":{"6ac285a5d96":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code># 14 seems to yield the best accuracy</code></pre>
 <p>In addition,to KNN, I will use NaiveBayes to supplement the response to question of ABV and IBU correlation in IPAs and Ales. Using NaiveBayes, re-evalute the IPA and Ale data based on IBU and ABV.</p>
 <pre class="r"><code># Values are set to factor types.

@@ -7,7 +7,7 @@ output: html_document
 
 The Sun is shining
 
-![I.A.Wilds](/Users/THEBU/Desktop/Doing Data Science/Week 12/simple website/pik_sun.jpg)
+![I.A.Wilds](/Users/THEBU/Desktop/Doing Data Science/Week 12/simple website/wildzealot.github.io/pik_sun.jpg)
 
 
 ## I am originally from Staten Island, New York
